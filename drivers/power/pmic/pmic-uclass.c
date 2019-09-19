@@ -194,6 +194,17 @@ static int pmic_pre_probe(struct udevice *dev)
 	return 0;
 }
 
+
+int pmic_shutdown(struct udevice *dev)
+{
+	const struct dm_pmic_ops *ops = dev_get_driver_ops(dev);
+
+	if (!ops || !ops->shutdown)
+		return -ENOSYS;
+
+	return ops->shutdown(dev);
+}
+
 UCLASS_DRIVER(pmic) = {
 	.id		= UCLASS_PMIC,
 	.name		= "pmic",
