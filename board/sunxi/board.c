@@ -578,6 +578,22 @@ void sunxi_board_init(void)
 		status_led_init();
 #endif
 
+#ifdef CONFIG_PINEPHONE_LEDS
+	/* PD18:G PD19:R PD20:B */
+	gpio_request(SUNXI_GPD(18), "led:green");
+	gpio_direction_output(SUNXI_GPD(18), 0);
+	gpio_request(SUNXI_GPD(19), "led:red");
+	gpio_direction_output(SUNXI_GPD(19), 1);
+	gpio_request(SUNXI_GPD(20), "led:blue");
+	gpio_direction_output(SUNXI_GPD(20), 0);
+
+	/* PD2: vibrator */
+	gpio_request(SUNXI_GPD(2), "vibrator");
+	gpio_direction_output(SUNXI_GPD(2), 1);
+	mdelay(400); // 0.4s
+	gpio_direction_output(SUNXI_GPD(2), 0);
+#endif
+
 #ifdef CONFIG_SY8106A_POWER
 	power_failed = sy8106a_set_vout1(CONFIG_SY8106A_VOUT1_VOLT);
 #endif
