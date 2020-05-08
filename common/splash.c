@@ -23,78 +23,9 @@
 #include <common.h>
 #include <display_options.h>
 #include <env.h>
+#include <mapmem.h>
 #include <splash.h>
 #include <video.h>
-
-static struct splash_location default_splash_locations[] = {
-	{
-		.name = "sf",
-		.storage = SPLASH_STORAGE_SF,
-		.flags = SPLASH_STORAGE_RAW,
-		.offset = 0x0,
-	},
-	{
-		.name = "mmc_fs",
-		.storage = SPLASH_STORAGE_MMC,
-		.flags = SPLASH_STORAGE_FS,
-		.devpart = "0:1",
-	},
-	{
-		.name = "mmc_raw",
-		.storage = SPLASH_STORAGE_MMC,
-		.flags = SPLASH_STORAGE_RAW,
-		.devpart = "0:1",
-	},
-	{
-		.name = "usb_fs",
-		.storage = SPLASH_STORAGE_USB,
-		.flags = SPLASH_STORAGE_FS,
-		.devpart = "0:1",
-	},
-	{
-		.name = "sata_fs",
-		.storage = SPLASH_STORAGE_SATA,
-		.flags = SPLASH_STORAGE_FS,
-		.devpart = "0:1",
-	},
-};
-
-#ifdef CONFIG_VIDEO_LOGO
-
-#include <bmp_logo_data.h>
-
-static int splash_video_logo_load(void)
-{
-	char *splashimage;
-	ulong bmp_load_addr;
-
-	splashimage = env_get("splashimage");
-	if (!splashimage)
-		return -ENOENT;
-
-	bmp_load_addr = hextoul(splashimage, 0);
-	if (!bmp_load_addr) {
-		printf("Error: bad 'splashimage' address\n");
-		return -EFAULT;
-	}
-
-	memcpy((void *)bmp_load_addr, bmp_logo_bitmap,
-	       ARRAY_SIZE(bmp_logo_bitmap));
-
-	return 0;
-}
-#else
-static inline int splash_video_logo_load(void) { return -ENOSYS; }
-#endif
-
-__weak int splash_screen_prepare(void)
-{
-	if (CONFIG_IS_ENABLED(SPLASH_SOURCE))
-		return splash_source_load(default_splash_locations,
-					  ARRAY_SIZE(default_splash_locations));
-
-	return splash_video_logo_load();
-}
 
 void splash_get_pos(int *x, int *y)
 {
@@ -121,6 +52,7 @@ void splash_get_pos(int *x, int *y)
 
 #ifdef CONFIG_VIDEO_LOGO
 #include <bmp_logo.h>
+#include <bmp_logo_data.h>
 #endif
 #include <dm.h>
 #include <video_console.h>
@@ -159,34 +91,11 @@ void splash_display_banner(void)
  */
 int splash_display(void)
 {
-	ulong addr;
-	char *s;
-	int x = 0, y = 0, ret;
-	if (!CONFIG_IS_ENABLED(SPLASH_SCREEN))
-		return -ENOSYS;
-	s = env_get("splashimage");
-	if (!s)
-		return -EINVAL;
-
-	addr = hextoul(s, NULL);
-	ret = splash_screen_prepare();
-	if (ret)
-		return ret;
-
-	splash_get_pos(&x, &y);
-
-	if (CONFIG_IS_ENABLED(BMP))
-		ret = bmp_display(addr, x, y);
-	else
-		return -ENOSYS;
-
-	/* Skip banner output on video console if the logo is not at 0,0 */
-	if (x || y)
-		goto end;
+	// Clamp to bottom right
+	int x = BMP_ALIGN_END, y = BMP_ALIGN_END;
 
 #if CONFIG_IS_ENABLED(VIDEO) && !CONFIG_IS_ENABLED(HIDE_LOGO_VERSION)
 	splash_display_banner();
 #endif
-end:
-	return ret;
+	return bmp_display(map_to_sysmem(bmp_logo_bitmap), x, y);
 }
