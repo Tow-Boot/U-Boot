@@ -317,6 +317,18 @@ static void vidconsole_escape_char(struct udevice *dev, char ch)
 		set_cursor_position(priv, row, col);
 		break;
 	}
+	case 'G': {
+		int row, col;
+		get_cursor_position(priv, &row, &col);
+		char *s = priv->escape_buf;
+		s++;    /* [ */
+		s = parsenum(s, &col);
+		col = col-1;
+		if (col < 0)
+			col = 0;
+		set_cursor_position(priv, row, col);
+		break;
+	}
 	case 'H':
 	case 'f': {
 		int row, col;
