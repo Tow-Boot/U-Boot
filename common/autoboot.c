@@ -5,6 +5,7 @@
  */
 
 #include <common.h>
+#include <ansi.h>
 #include <autoboot.h>
 #include <bootretry.h>
 #include <cli.h>
@@ -365,14 +366,16 @@ static int abortboot_single_key(int bootdelay)
 	int abort = 0;
 	unsigned long ts;
 
-	printf("Hit any key to stop autoboot: %2d ", bootdelay);
+	printf(CONFIG_AUTOBOOT_PROMPT, bootdelay);
 
 	/*
 	 * Check if key already pressed
 	 */
 	if (tstc()) {	/* we got a key press	*/
 		getchar();	/* consume input	*/
-		puts("\b\b\b 0");
+		puts(ANSI_CLEAR_LINE);
+		printf(ANSI_CURSOR_COLUMN, 1);
+		printf(CONFIG_AUTOBOOT_PROMPT, 0);
 		abort = 1;	/* don't auto boot	*/
 	}
 
@@ -394,7 +397,9 @@ static int abortboot_single_key(int bootdelay)
 			udelay(10000);
 		} while (!abort && get_timer(ts) < 1000);
 
-		printf("\b\b\b%2d ", bootdelay);
+		puts(ANSI_CLEAR_LINE);
+		printf(ANSI_CURSOR_COLUMN, 1);
+		printf(CONFIG_AUTOBOOT_PROMPT, bootdelay);
 	}
 
 	putc('\n');
