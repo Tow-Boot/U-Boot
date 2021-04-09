@@ -925,6 +925,7 @@ endif # SPLASH_SCREEN
 config VIDEO_BMP_GZIP
 	bool "Gzip compressed BMP image support"
 	depends on BMP || SPLASH_SCREEN
+	select GZIP
 	help
 	  If this option is set, additionally to standard BMP
 	  images, gzipped BMP images can be displayed via the
