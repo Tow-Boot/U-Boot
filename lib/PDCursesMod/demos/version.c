@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <curses.h>
+#include <PDCurses/curses.h>
 
 /* Example usage of the PDC_get_version function declared in curses.h.  The
 general idea is that,  while we have various macros defined to tell us

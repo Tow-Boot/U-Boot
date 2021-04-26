@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <curses.h>
+#include <PDCurses/curses.h>
 
 /* PDCurses/ncurses speed test.  Initializes *curses,  displays
 semi-random numbers on the screen for 3000 milliseconds = 3 seconds,

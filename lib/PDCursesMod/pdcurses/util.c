@@ -1,6 +1,6 @@
 /* PDCurses */
 
-#include <curspriv.h>
+#include "../curspriv.h"
 #include <assert.h>
 
 /*man-start**************************************************************
@@ -90,7 +90,7 @@ char *unctrl(chtype c)
 
     chtype ic;
 
-    PDC_LOG(("unctrl() - called\n"));
+    PDC_LOG("unctrl() - called\n");
 
     ic = c & A_CHARTEXT;
 
@@ -113,24 +113,37 @@ char *unctrl(chtype c)
 
 void filter(void)
 {
-    PDC_LOG(("filter() - called\n"));
+    PDC_LOG("filter() - called\n");
 }
 
 void use_env(bool x)
 {
     INTENTIONALLY_UNUSED_PARAMETER( x);
-    PDC_LOG(("use_env() - called: x %d\n", x));
+    PDC_LOG("use_env() - called: x %d\n", x);
 }
 
 int delay_output(int ms)
 {
-    PDC_LOG(("delay_output() - called: ms %d\n", ms));
+    PDC_LOG("delay_output() - called: ms %d\n", ms);
 
     return napms(ms);
 }
 
 int PDC_wc_to_utf8( char *dest, const int32_t code)
 {
+#ifdef __U_BOOT__
+   int n_bytes_out;
+
+   // Assumes all chars are already correct
+   // This is because we're working in a weird setup.
+   // The video console (cfb_console) is CP37.
+   // The serial console is *probably* UTF-8.
+   // So transmitting the raw chars is better.
+   dest[0] = (char)code;
+   n_bytes_out = 1;
+
+   return n_bytes_out;
+#else
    int n_bytes_out;
 
    if (code < 0x80)
@@ -161,6 +174,7 @@ int PDC_wc_to_utf8( char *dest, const int32_t code)
            n_bytes_out = 4;
        }
    return( n_bytes_out);
+#endif
 }
 
 #ifdef PDC_WIDE
@@ -212,7 +226,7 @@ wchar_t *wunctrl(cchar_t *wc)
 
     cchar_t ic;
 
-    PDC_LOG(("wunctrl() - called\n"));
+    PDC_LOG("wunctrl() - called\n");
 
     assert( wc);
     if (!wc)

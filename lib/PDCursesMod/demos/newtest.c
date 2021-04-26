@@ -12,13 +12,13 @@
 #endif
 
 #if defined (PDC_WIDE)
-   #include <curses.h>
+   #include <PDCurses/curses.h>
    #define HAVE_WIDE
 #elif defined (HAVE_NCURSESW)
    #include <ncursesw/curses.h>
    #define HAVE_WIDE
 #else
-   #include <curses.h>
+   #include <PDCurses/curses.h>
 #endif
 
 #include <string.h>

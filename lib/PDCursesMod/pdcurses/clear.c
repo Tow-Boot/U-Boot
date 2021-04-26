@@ -1,6 +1,6 @@
 /* PDCurses */
 
-#include <curspriv.h>
+#include "../curspriv.h"
 #include <assert.h>
 
 /*man-start**************************************************************
@@ -56,8 +56,8 @@ int wclrtoeol(WINDOW *win)
     int x, y, minx;
     chtype blank, *ptr;
 
-    PDC_LOG(("wclrtoeol() - called: Row: %d Col: %d\n",
-             win->_cury, win->_curx));
+    PDC_LOG("wclrtoeol() - called: Row: %d Col: %d\n",
+             win->_cury, win->_curx);
 
     assert( win);
     if (!win)
@@ -84,7 +84,7 @@ int wclrtoeol(WINDOW *win)
 
 int clrtoeol(void)
 {
-    PDC_LOG(("clrtoeol() - called\n"));
+    PDC_LOG("clrtoeol() - called\n");
 
     return wclrtoeol(stdscr);
 }
@@ -93,7 +93,7 @@ int wclrtobot(WINDOW *win)
 {
     int savey, savex;
 
-    PDC_LOG(("wclrtobot() - called\n"));
+    PDC_LOG("wclrtobot() - called\n");
 
     assert( win);
     if (!win)
@@ -121,14 +121,14 @@ int wclrtobot(WINDOW *win)
 
 int clrtobot(void)
 {
-    PDC_LOG(("clrtobot() - called\n"));
+    PDC_LOG("clrtobot() - called\n");
 
     return wclrtobot(stdscr);
 }
 
 int werase(WINDOW *win)
 {
-    PDC_LOG(("werase() - called\n"));
+    PDC_LOG("werase() - called\n");
 
     if (wmove(win, 0, 0) == ERR)
         return ERR;
@@ -138,14 +138,14 @@ int werase(WINDOW *win)
 
 int erase(void)
 {
-    PDC_LOG(("erase() - called\n"));
+    PDC_LOG("erase() - called\n");
 
     return werase(stdscr);
 }
 
 int wclear(WINDOW *win)
 {
-    PDC_LOG(("wclear() - called\n"));
+    PDC_LOG("wclear() - called\n");
 
     assert( win);
     if (!win)
@@ -157,7 +157,7 @@ int wclear(WINDOW *win)
 
 int clear(void)
 {
-    PDC_LOG(("clear() - called\n"));
+    PDC_LOG("clear() - called\n");
 
     return wclear(stdscr);
 }

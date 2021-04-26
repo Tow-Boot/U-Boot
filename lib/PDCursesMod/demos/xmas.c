@@ -44,7 +44,7 @@
 /*                                                                            */
 /******************************************************************************/
 
-#include <curses.h>
+#include <PDCurses/curses.h>
 
 void lil(WINDOW *);
 void midtop(WINDOW *);

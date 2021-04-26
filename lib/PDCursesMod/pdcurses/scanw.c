@@ -1,6 +1,6 @@
 /* PDCurses */
 
-#include <curspriv.h>
+#include "../curspriv.h"
 
 /*man-start**************************************************************
 
@@ -57,7 +57,7 @@ int vwscanw(WINDOW *win, const char *fmt, va_list varglist)
 {
     char scanbuf[256];
 
-    PDC_LOG(("vwscanw() - called\n"));
+    PDC_LOG("vwscanw() - called\n");
 
     if (wgetnstr(win, scanbuf, 255) == ERR)
         return ERR;
@@ -70,7 +70,7 @@ int scanw(const char *fmt, ...)
     va_list args;
     int retval;
 
-    PDC_LOG(("scanw() - called\n"));
+    PDC_LOG("scanw() - called\n");
 
     va_start(args, fmt);
     retval = vwscanw(stdscr, fmt, args);
@@ -84,7 +84,7 @@ int wscanw(WINDOW *win, const char *fmt, ...)
     va_list args;
     int retval;
 
-    PDC_LOG(("wscanw() - called\n"));
+    PDC_LOG("wscanw() - called\n");
 
     va_start(args, fmt);
     retval = vwscanw(win, fmt, args);
@@ -98,7 +98,7 @@ int mvscanw(int y, int x, const char *fmt, ...)
     va_list args;
     int retval;
 
-    PDC_LOG(("mvscanw() - called\n"));
+    PDC_LOG("mvscanw() - called\n");
 
     if (move(y, x) == ERR)
         return ERR;
@@ -115,7 +115,7 @@ int mvwscanw(WINDOW *win, int y, int x, const char *fmt, ...)
     va_list args;
     int retval;
 
-    PDC_LOG(("mvscanw() - called\n"));
+    PDC_LOG("mvscanw() - called\n");
 
     if (wmove(win, y, x) == ERR)
         return ERR;
@@ -129,7 +129,7 @@ int mvwscanw(WINDOW *win, int y, int x, const char *fmt, ...)
 
 int vw_scanw(WINDOW *win, const char *fmt, va_list varglist)
 {
-    PDC_LOG(("vw_scanw() - called\n"));
+    PDC_LOG("vw_scanw() - called\n");
 
     return vwscanw(win, fmt, varglist);
 }

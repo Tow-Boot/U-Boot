@@ -5,7 +5,7 @@
 
 #include <signal.h>
 #include <string.h>
-#include <curses.h>
+#include <PDCurses/curses.h>
 #include <stdlib.h>
 #include <time.h>
 

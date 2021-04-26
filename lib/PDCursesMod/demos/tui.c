@@ -7,7 +7,7 @@
  */
 
 #include <ctype.h>
-#include <curses.h>
+#include <PDCurses/curses.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -18,8 +18,10 @@ void statusmsg(char *);
 int waitforkey(void);
 void rmerror(void);
 
+#ifndef __U_BOOT__
 #if defined(__unix) && !defined(__DJGPP__)
 #include <unistd.h>
+#endif
 #endif
 
 #ifdef A_COLOR
@@ -167,6 +169,9 @@ static void colorbox(WINDOW *win, chtype color, int hasbox)
 static void idle(void)
 {
     char buf[MAXSTRLEN];
+#ifdef __U_BOOT__
+    sprintf(buf, " No time :( ");
+#else
     time_t t;
     struct tm *tp;
 
@@ -177,6 +182,7 @@ static void idle(void)
     sprintf(buf, " %.4d-%.2d-%.2d  %.2d:%.2d:%.2d",
             tp->tm_year + 1900, tp->tm_mon + 1, tp->tm_mday,
             tp->tm_hour, tp->tm_min, tp->tm_sec);
+#endif
 
     mvwaddstr(wtitl, 0, bw - (int)strlen(buf) - 2, buf);
     wrefresh(wtitl);

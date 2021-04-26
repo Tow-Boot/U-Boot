@@ -1,7 +1,7 @@
 /* PDCurses */
 
 #include <assert.h>
-#include <curspriv.h>
+#include "../curspriv.h"
 
 /*man-start**************************************************************
 
@@ -46,7 +46,7 @@ inch
 
 chtype winch(WINDOW *win)
 {
-    PDC_LOG(("winch() - called\n"));
+    PDC_LOG("winch() - called\n");
 
     assert( win);
     if (!win)
@@ -57,14 +57,14 @@ chtype winch(WINDOW *win)
 
 chtype inch(void)
 {
-    PDC_LOG(("inch() - called\n"));
+    PDC_LOG("inch() - called\n");
 
     return winch(stdscr);
 }
 
 chtype mvinch(int y, int x)
 {
-    PDC_LOG(("mvinch() - called\n"));
+    PDC_LOG("mvinch() - called\n");
 
     if (move(y, x) == ERR)
         return (chtype)ERR;
@@ -74,7 +74,7 @@ chtype mvinch(int y, int x)
 
 chtype mvwinch(WINDOW *win, int y, int x)
 {
-    PDC_LOG(("mvwinch() - called\n"));
+    PDC_LOG("mvwinch() - called\n");
 
     if (wmove(win, y, x) == ERR)
         return (chtype)ERR;
@@ -85,7 +85,7 @@ chtype mvwinch(WINDOW *win, int y, int x)
 #ifdef PDC_WIDE
 int win_wch(WINDOW *win, cchar_t *wcval)
 {
-    PDC_LOG(("win_wch() - called\n"));
+    PDC_LOG("win_wch() - called\n");
 
     assert( win);
     assert( wcval);
@@ -99,14 +99,14 @@ int win_wch(WINDOW *win, cchar_t *wcval)
 
 int in_wch(cchar_t *wcval)
 {
-    PDC_LOG(("in_wch() - called\n"));
+    PDC_LOG("in_wch() - called\n");
 
     return win_wch(stdscr, wcval);
 }
 
 int mvin_wch(int y, int x, cchar_t *wcval)
 {
-    PDC_LOG(("mvin_wch() - called\n"));
+    PDC_LOG("mvin_wch() - called\n");
 
     assert( wcval);
     if (!wcval || (move(y, x) == ERR))
@@ -119,7 +119,7 @@ int mvin_wch(int y, int x, cchar_t *wcval)
 
 int mvwin_wch(WINDOW *win, int y, int x, cchar_t *wcval)
 {
-    PDC_LOG(("mvwin_wch() - called\n"));
+    PDC_LOG("mvwin_wch() - called\n");
 
     assert( wcval);
     if (!wcval || (wmove(win, y, x) == ERR))

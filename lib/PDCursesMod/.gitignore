@@ -15,7 +15,6 @@ tuidemo
 worm
 xmas
 *.sho
-Makefile
 config.h
 config.log
 config.status

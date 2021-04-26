@@ -1,6 +1,6 @@
 /* PDCurses */
 
-#include <curspriv.h>
+#include "../curspriv.h"
 
 /*man-start**************************************************************
 
@@ -114,7 +114,7 @@ char *keyname(int key)
               "LAUNCH_APP5", "LAUNCH_APP6", "LAUNCH_APP7", "LAUNCH_APP8",
               "LAUNCH_APP9", "LAUNCH_APP10" };
 
-    PDC_LOG(("keyname() - called: key %d\n", key));
+    PDC_LOG("keyname() - called: key %d\n", key);
 
     strcpy(_keyname, ((key >= 0) && (key < 0x80)) ? unctrl((chtype)key) :
            has_key(key) ? key_names[key - KEY_MIN] : "UNKNOWN KEY");
@@ -124,7 +124,7 @@ char *keyname(int key)
 
 bool has_key(int key)
 {
-    PDC_LOG(("has_key() - called: key %d\n", key));
+    PDC_LOG("has_key() - called: key %d\n", key);
 
     return (key >= KEY_MIN && key <= KEY_MAX);
 }
@@ -132,7 +132,7 @@ bool has_key(int key)
 #ifdef PDC_WIDE
 char *key_name(wchar_t c)
 {
-    PDC_LOG(("key_name() - called\n"));
+    PDC_LOG("key_name() - called\n");
 
     return keyname((int)c);
 }

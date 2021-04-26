@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#include <curses.h>
+#include <PDCurses/curses.h>
 
 #ifdef WACS_S1
 # define HAVE_WIDE 1

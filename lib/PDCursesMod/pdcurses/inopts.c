@@ -1,6 +1,6 @@
 /* PDCurses */
 
-#include <curspriv.h>
+#include "../curspriv.h"
 #include <assert.h>
 
 /*man-start**************************************************************
@@ -127,7 +127,7 @@ inopts
 
 int cbreak(void)
 {
-    PDC_LOG(("cbreak() - called\n"));
+    PDC_LOG("cbreak() - called\n");
 
     assert( SP);
     if (!SP)
@@ -140,7 +140,7 @@ int cbreak(void)
 
 int nocbreak(void)
 {
-    PDC_LOG(("nocbreak() - called\n"));
+    PDC_LOG("nocbreak() - called\n");
 
     assert( SP);
     if (!SP)
@@ -154,7 +154,7 @@ int nocbreak(void)
 
 int echo(void)
 {
-    PDC_LOG(("echo() - called\n"));
+    PDC_LOG("echo() - called\n");
 
     assert( SP);
     if (!SP)
@@ -167,7 +167,7 @@ int echo(void)
 
 int noecho(void)
 {
-    PDC_LOG(("noecho() - called\n"));
+    PDC_LOG("noecho() - called\n");
 
     assert( SP);
     if (!SP)
@@ -180,7 +180,7 @@ int noecho(void)
 
 int halfdelay(int tenths)
 {
-    PDC_LOG(("halfdelay() - called\n"));
+    PDC_LOG("halfdelay() - called\n");
 
     assert( SP);
     if (!SP || tenths < 1 || tenths > 255)
@@ -193,7 +193,7 @@ int halfdelay(int tenths)
 
 int intrflush(WINDOW *win, bool bf)
 {
-    PDC_LOG(("intrflush() - called\n"));
+    PDC_LOG("intrflush() - called\n");
 
     INTENTIONALLY_UNUSED_PARAMETER( win);
     INTENTIONALLY_UNUSED_PARAMETER( bf);
@@ -202,7 +202,7 @@ int intrflush(WINDOW *win, bool bf)
 
 int keypad(WINDOW *win, bool bf)
 {
-    PDC_LOG(("keypad() - called\n"));
+    PDC_LOG("keypad() - called\n");
 
     assert( win);
     if (!win)
@@ -215,7 +215,7 @@ int keypad(WINDOW *win, bool bf)
 
 int meta(WINDOW *win, bool bf)
 {
-    PDC_LOG(("meta() - called\n"));
+    PDC_LOG("meta() - called\n");
 
     INTENTIONALLY_UNUSED_PARAMETER( win);
     assert( SP);
@@ -229,7 +229,7 @@ int meta(WINDOW *win, bool bf)
 
 int nl(void)
 {
-    PDC_LOG(("nl() - called\n"));
+    PDC_LOG("nl() - called\n");
 
     assert( SP);
     if (!SP)
@@ -242,7 +242,7 @@ int nl(void)
 
 int nonl(void)
 {
-    PDC_LOG(("nonl() - called\n"));
+    PDC_LOG("nonl() - called\n");
 
     assert( SP);
     if (!SP)
@@ -255,7 +255,7 @@ int nonl(void)
 
 int nodelay(WINDOW *win, bool flag)
 {
-    PDC_LOG(("nodelay() - called\n"));
+    PDC_LOG("nodelay() - called\n");
 
     assert( win);
     if (!win)
@@ -268,7 +268,7 @@ int nodelay(WINDOW *win, bool flag)
 
 int notimeout(WINDOW *win, bool flag)
 {
-    PDC_LOG(("notimeout() - called\n"));
+    PDC_LOG("notimeout() - called\n");
 
     INTENTIONALLY_UNUSED_PARAMETER( win);
     INTENTIONALLY_UNUSED_PARAMETER( flag);
@@ -277,7 +277,7 @@ int notimeout(WINDOW *win, bool flag)
 
 int raw(void)
 {
-    PDC_LOG(("raw() - called\n"));
+    PDC_LOG("raw() - called\n");
 
     assert( SP);
     if (!SP)
@@ -291,7 +291,7 @@ int raw(void)
 
 int noraw(void)
 {
-    PDC_LOG(("noraw() - called\n"));
+    PDC_LOG("noraw() - called\n");
 
     assert( SP);
     if (!SP)
@@ -305,25 +305,25 @@ int noraw(void)
 
 void noqiflush(void)
 {
-    PDC_LOG(("noqiflush() - called\n"));
+    PDC_LOG("noqiflush() - called\n");
 }
 
 void qiflush(void)
 {
-    PDC_LOG(("qiflush() - called\n"));
+    PDC_LOG("qiflush() - called\n");
 }
 
 int typeahead(int fildes)
 {
     INTENTIONALLY_UNUSED_PARAMETER( fildes);
-    PDC_LOG(("typeahead() - called\n"));
+    PDC_LOG("typeahead() - called\n");
 
     return OK;
 }
 
 void wtimeout(WINDOW *win, int delay)
 {
-    PDC_LOG(("wtimeout() - called\n"));
+    PDC_LOG("wtimeout() - called\n");
 
     assert( win);
     if (!win)
@@ -358,28 +358,28 @@ void wtimeout(WINDOW *win, int delay)
 
 void timeout(int delay)
 {
-    PDC_LOG(("timeout() - called\n"));
+    PDC_LOG("timeout() - called\n");
 
     wtimeout(stdscr, delay);
 }
 
 int crmode(void)
 {
-    PDC_LOG(("crmode() - called\n"));
+    PDC_LOG("crmode() - called\n");
 
     return cbreak();
 }
 
 int nocrmode(void)
 {
-    PDC_LOG(("nocrmode() - called\n"));
+    PDC_LOG("nocrmode() - called\n");
 
     return nocbreak();
 }
 
 bool is_keypad(const WINDOW *win)
 {
-    PDC_LOG(("is_keypad() - called\n"));
+    PDC_LOG("is_keypad() - called\n");
 
     assert( win);
     if (!win)

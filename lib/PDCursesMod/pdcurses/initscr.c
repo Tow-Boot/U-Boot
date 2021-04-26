@@ -1,8 +1,14 @@
 /* PDCurses */
 
-#include <curspriv.h>
-#include <panel.h>
+#include "../curspriv.h"
+#include <PDCurses/panel.h>
 #include <assert.h>
+
+#ifdef __U_BOOT__
+static void exit(int ret) {
+    printf("in %s; exit with %d.\n", __FILE__, ret);
+}
+#endif
 
 /*man-start**************************************************************
 
@@ -153,7 +159,7 @@ WINDOW *initscr(void)
 {
     int i;
 
-    PDC_LOG(("initscr() - called\n"));
+    PDC_LOG("initscr() - called\n");
 
     if (SP && SP->alive)
         return NULL;
@@ -164,7 +170,7 @@ WINDOW *initscr(void)
 
     if (PDC_scr_open() == ERR)
     {
-        fprintf(stderr, "initscr(): Unable to create SP\n");
+        PDC_perror("initscr(): Unable to create SP\n");
         exit(8);
     }
 
@@ -183,7 +189,9 @@ WINDOW *initscr(void)
     SP->delaytenths = 0;
     SP->line_color = -1;
     SP->lastscr = (WINDOW *)NULL;
+#ifndef __U_BOOT__
     SP->dbfp = NULL;
+#endif
     SP->color_started = FALSE;
     SP->dirty = FALSE;
     SP->sel_start = -1;
@@ -196,7 +204,7 @@ WINDOW *initscr(void)
 
     if (LINES < 2 || COLS < 2)
     {
-        fprintf(stderr, "initscr(): LINES=%d COLS=%d: too small.\n",
+        PDC_perror("initscr(): LINES=%d COLS=%d: too small.\n",
                 LINES, COLS);
         exit(4);
     }
@@ -204,15 +212,19 @@ WINDOW *initscr(void)
     curscr = newwin(LINES, COLS, 0, 0);
     if (!curscr)
     {
-        fprintf(stderr, "initscr(): Unable to create curscr.\n");
+        PDC_perror("initscr(): Unable to create curscr.\n");
         exit(2);
+
+        return NULL;
     }
 
     SP->lastscr = newwin(LINES, COLS, 0, 0);
     if (!SP->lastscr)
     {
-        fprintf(stderr, "initscr(): Unable to create SP->lastscr.\n");
+        PDC_perror("initscr(): Unable to create SP->lastscr.\n");
         exit(2);
+
+        return NULL;
     }
 
     wattrset(SP->lastscr, (chtype)(-1));
@@ -241,8 +253,10 @@ WINDOW *initscr(void)
     stdscr = newwin(LINES, COLS, SP->linesrippedoffontop, 0);
     if (!stdscr)
     {
-        fprintf(stderr, "initscr(): Unable to create stdscr.\n");
+        PDC_perror("initscr(): Unable to create stdscr.\n");
         exit(1);
+
+        return NULL;
     }
 
     wclrtobot(stdscr);
@@ -292,7 +306,7 @@ WINDOW *initscr(void)
 #ifdef XCURSES
 WINDOW *Xinitscr(int argc, char **argv)
 {
-    PDC_LOG(("Xinitscr() - called\n"));
+    PDC_LOG("Xinitscr() - called\n");
 
     PDC_set_args(argc, argv);
     return initscr();
@@ -301,7 +315,7 @@ WINDOW *Xinitscr(int argc, char **argv)
 
 int endwin(void)
 {
-    PDC_LOG(("endwin() - called\n"));
+    PDC_LOG("endwin() - called\n");
 
     /* Allow temporary exit from curses using endwin() */
 
@@ -316,25 +330,27 @@ int endwin(void)
 
 bool isendwin(void)
 {
-    PDC_LOG(("isendwin() - called\n"));
+    PDC_LOG("isendwin() - called\n");
 
     assert( SP);
     return SP ? !(SP->alive) : FALSE;
 }
 
+#ifndef __U_BOOT__
 SCREEN *newterm(const char *type, FILE *outfd, FILE *infd)
 {
-    PDC_LOG(("newterm() - called\n"));
+    PDC_LOG("newterm() - called\n");
 
     INTENTIONALLY_UNUSED_PARAMETER( type);
     INTENTIONALLY_UNUSED_PARAMETER( outfd);
     INTENTIONALLY_UNUSED_PARAMETER( infd);
     return initscr() ? SP : NULL;
 }
+#endif
 
 SCREEN *set_term(SCREEN *new)
 {
-    PDC_LOG(("set_term() - called\n"));
+    PDC_LOG("set_term() - called\n");
 
     /* We only support one screen */
 
@@ -343,7 +359,7 @@ SCREEN *set_term(SCREEN *new)
 
 void delscreen(SCREEN *sp)
 {
-    PDC_LOG(("delscreen() - called\n"));
+    PDC_LOG("delscreen() - called\n");
 
     assert( SP);
     if (!SP || sp != SP)
@@ -374,7 +390,7 @@ int resize_term(int nlines, int ncols)
 {
     PANEL *panel_ptr = NULL;
 
-    PDC_LOG(("resize_term() - called: nlines %d\n", nlines));
+    PDC_LOG("resize_term() - called: nlines %d\n", nlines);
 
     if( PDC_resize_screen(nlines, ncols) == ERR)
         return ERR;
@@ -425,7 +441,7 @@ int resize_term(int nlines, int ncols)
 
 bool is_termresized(void)
 {
-    PDC_LOG(("is_termresized() - called\n"));
+    PDC_LOG("is_termresized() - called\n");
 
     return SP->resized;
 }
@@ -472,7 +488,7 @@ void PDC_get_version(PDC_VERSION *ver)
 
 int set_tabsize(int tabsize)
 {
-    PDC_LOG(("set_tabsize() - called: tabsize %d\n", tabsize));
+    PDC_LOG("set_tabsize() - called: tabsize %d\n", tabsize);
 
     if (tabsize < 1)
         return ERR;

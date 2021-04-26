@@ -5,6 +5,8 @@
 #ifndef __PDCURSES__
 #define __PDCURSES__ 1
 
+#define __U_BOOT__
+
 /*man-start**************************************************************
 
 Define before inclusion (only those needed):
@@ -414,7 +416,9 @@ typedef struct
     short line_color;     /* color of line attributes - default -1 */
     attr_t termattrs;     /* attribute capabilities */
     WINDOW *lastscr;      /* the last screen image */
+#ifndef __U_BOOT__
     FILE *dbfp;           /* debug trace file pointer */
+#endif
     bool  color_started;  /* TRUE after start_color() */
     bool  dirty;          /* redraw on napms() after init_color() */
     int   sel_start;      /* start of selection (y * COLS + x) */
@@ -1254,7 +1258,9 @@ PDCEX  int     flushinp(void);
 PDCEX  chtype  getbkgd(WINDOW *);
 PDCEX  int     getnstr(char *, int);
 PDCEX  int     getstr(char *);
+#ifndef __U_BOOT__
 PDCEX  WINDOW *getwin(FILE *);
+#endif
 PDCEX  int     halfdelay(int);
 PDCEX  bool    has_colors(void);
 PDCEX  bool    has_ic(void);
@@ -1361,7 +1367,9 @@ PDCEX  int     mvwscanw(WINDOW *, int, int, const char *, ...);
 PDCEX  int     mvwvline(WINDOW *, int, int, chtype, int);
 PDCEX  int     napms(int);
 PDCEX  WINDOW *newpad(int, int);
+#ifndef __U_BOOT__
 PDCEX  SCREEN *newterm(const char *, FILE *, FILE *);
+#endif
 PDCEX  WINDOW *newwin(int, int, int, int);
 PDCEX  int     nl(void);
 PDCEX  int     nocbreak(void);
@@ -1378,7 +1386,9 @@ PDCEX  int     pechochar(WINDOW *, chtype);
 PDCEX  int     pnoutrefresh(WINDOW *, int, int, int, int, int, int);
 PDCEX  int     prefresh(WINDOW *, int, int, int, int, int, int);
 PDCEX  int     printw(const char *, ...);
+#ifndef __U_BOOT__
 PDCEX  int     putwin(WINDOW *, FILE *);
+#endif
 PDCEX  void    qiflush(void);
 PDCEX  int     raw(void);
 PDCEX  int     redrawwin(WINDOW *);
@@ -1391,8 +1401,10 @@ PDCEX  int     savetty(void);
 PDCEX  int     scanw(const char *, ...);
 PDCEX  int     scr_dump(const char *);
 PDCEX  int     scr_init(const char *);
+#ifndef __U_BOOT__
 PDCEX  int     scr_restore(const char *);
 PDCEX  int     scr_set(const char *);
+#endif
 PDCEX  int     scrl(int);
 PDCEX  int     scroll(WINDOW *);
 PDCEX  int     scrollok(WINDOW *, bool);

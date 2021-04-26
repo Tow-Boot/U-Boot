@@ -1,6 +1,6 @@
 /* PDCurses */
 
-#include <curspriv.h>
+#include "../curspriv.h"
 #include <assert.h>
 
 /*man-start**************************************************************
@@ -127,7 +127,7 @@ panel
 
 **man-end****************************************************************/
 
-#include <panel.h>
+#include <PDCurses/panel.h>
 #include <stdlib.h>
 
 PANEL *_bottom_panel = (PANEL *)0;
@@ -138,10 +138,10 @@ PANEL _stdscr_pseudo_panel;
 
 static void dPanel(char *text, PANEL *pan)
 {
-    PDC_LOG(("%s id=%s b=%s a=%s y=%d x=%d", text, pan->user,
+    PDC_LOG("%s id=%s b=%s a=%s y=%d x=%d", text, pan->user,
              pan->below ? pan->below->user : "--",
              pan->above ? pan->above->user : "--",
-             pan->wstarty, pan->wstartx));
+             pan->wstarty, pan->wstartx);
 }
 
 static void dStack(char *fmt, int num, PANEL *pan)
@@ -149,11 +149,11 @@ static void dStack(char *fmt, int num, PANEL *pan)
     char s80[80];
 
     sprintf(s80, fmt, num, pan);
-    PDC_LOG(("%s b=%s t=%s", s80, _bottom_panel ? _bottom_panel->user : "--",
-             _top_panel    ? _top_panel->user    : "--"));
+    PDC_LOG("%s b=%s t=%s", s80, _bottom_panel ? _bottom_panel->user : "--",
+             _top_panel    ? _top_panel->user    : "--");
 
     if (pan)
-        PDC_LOG(("pan id=%s", pan->user));
+        PDC_LOG("pan id=%s", pan->user);
 
     pan = _bottom_panel;
 
@@ -575,7 +575,7 @@ const void *panel_userptr(const PANEL *pan)
 
 WINDOW *panel_window(const PANEL *pan)
 {
-    PDC_LOG(("panel_window() - called\n"));
+    PDC_LOG("panel_window() - called\n");
 
     assert( pan);
     if (!pan)
@@ -645,7 +645,7 @@ void update_panels(void)
 {
     PANEL *pan;
 
-    PDC_LOG(("update_panels() - called\n"));
+    PDC_LOG("update_panels() - called\n");
 
     pan = _bottom_panel;
 

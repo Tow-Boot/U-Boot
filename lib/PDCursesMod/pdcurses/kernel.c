@@ -1,6 +1,6 @@
 /* PDCurses */
 
-#include <curspriv.h>
+#include "../curspriv.h"
 #include <assert.h>
 
 /*man-start**************************************************************
@@ -139,7 +139,7 @@ static int _restore_mode(int i)
 
 int def_prog_mode(void)
 {
-    PDC_LOG(("def_prog_mode() - called\n"));
+    PDC_LOG("def_prog_mode() - called\n");
 
     assert( SP);
     if (!SP)
@@ -152,7 +152,7 @@ int def_prog_mode(void)
 
 int def_shell_mode(void)
 {
-    PDC_LOG(("def_shell_mode() - called\n"));
+    PDC_LOG("def_shell_mode() - called\n");
 
     assert( SP);
     if (!SP)
@@ -165,7 +165,7 @@ int def_shell_mode(void)
 
 int reset_prog_mode(void)
 {
-    PDC_LOG(("reset_prog_mode() - called\n"));
+    PDC_LOG("reset_prog_mode() - called\n");
 
     assert( SP);
     if (!SP)
@@ -179,7 +179,7 @@ int reset_prog_mode(void)
 
 int reset_shell_mode(void)
 {
-    PDC_LOG(("reset_shell_mode() - called\n"));
+    PDC_LOG("reset_shell_mode() - called\n");
 
     assert( SP);
     if (!SP)
@@ -193,7 +193,7 @@ int reset_shell_mode(void)
 
 int resetty(void)
 {
-    PDC_LOG(("resetty() - called\n"));
+    PDC_LOG("resetty() - called\n");
 
     assert( SP);
     if (!SP)
@@ -204,7 +204,7 @@ int resetty(void)
 
 int savetty(void)
 {
-    PDC_LOG(("savetty() - called\n"));
+    PDC_LOG("savetty() - called\n");
 
     assert( SP);
     if (!SP)
@@ -219,7 +219,7 @@ int curs_set(int visibility)
 {
     int ret_vis;
 
-    PDC_LOG(("curs_set() - called: visibility=%d\n", visibility));
+    PDC_LOG("curs_set() - called: visibility=%d\n", visibility);
 
     if ((visibility < 0) || (visibility > 0x10000))
         return ERR;
@@ -240,7 +240,7 @@ on some platforms,  but is it true for all?  */
 
 int napms(int ms)
 {
-    PDC_LOG(("napms() - called: ms=%d\n", ms));
+    PDC_LOG("napms() - called: ms=%d\n", ms);
 
     assert( SP);
     if (!SP)
@@ -269,7 +269,7 @@ int napms(int ms)
 
 int ripoffline(int line, int (*init)(WINDOW *, int))
 {
-    PDC_LOG(("ripoffline() - called: line=%d\n", line));
+    PDC_LOG("ripoffline() - called: line=%d\n", line);
 
     assert( init);
     if (linesrippedoff < 5 && line && init)
@@ -285,28 +285,28 @@ int ripoffline(int line, int (*init)(WINDOW *, int))
 
 int draino(int ms)
 {
-    PDC_LOG(("draino() - called\n"));
+    PDC_LOG("draino() - called\n");
 
     return napms(ms);
 }
 
 int resetterm(void)
 {
-    PDC_LOG(("resetterm() - called\n"));
+    PDC_LOG("resetterm() - called\n");
 
     return reset_shell_mode();
 }
 
 int fixterm(void)
 {
-    PDC_LOG(("fixterm() - called\n"));
+    PDC_LOG("fixterm() - called\n");
 
     return reset_prog_mode();
 }
 
 int saveterm(void)
 {
-    PDC_LOG(("saveterm() - called\n"));
+    PDC_LOG("saveterm() - called\n");
 
     return def_prog_mode();
 }

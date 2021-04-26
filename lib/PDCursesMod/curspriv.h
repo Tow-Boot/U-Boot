@@ -4,8 +4,10 @@
 #ifndef __CURSES_INTERNALS__
 #define __CURSES_INTERNALS__ 1
 
+#define __U_BOOT__
+
 #define CURSES_LIBRARY
-#include <curses.h>
+#include <PDCurses/curses.h>
 
 #if defined(__TURBOC__) || defined(__EMX__) || defined(__DJGPP__) || \
     defined(PDC_99) || defined(__WATCOMC__)
@@ -18,6 +20,10 @@
 # if !defined( HAVE_VSNPRINTF) && !defined( __DMC__)
 #  define HAVE_VSNPRINTF     /* have vsnprintf() */
 # endif
+#endif
+
+#ifdef __U_BOOT__
+#include <vsprintf.h>
 #endif
 
 /*----------------------------------------------------------------------*/
@@ -90,15 +96,24 @@ void    PDC_sync(WINDOW *);
 void    PDC_set_default_colors( const int, const int);
 
 #ifdef PDC_WIDE
+#ifdef __U_BOOT__
+#error PDC_WIDE is not supported under U-Boot
+#endif
 int     PDC_mbtowc(wchar_t *, const char *, size_t);
 size_t  PDC_mbstowcs(wchar_t *, const char *, size_t);
 size_t  PDC_wcstombs(char *, const wchar_t *, size_t);
 #endif
 
 #ifdef PDCDEBUG
-# define PDC_LOG(x) if (SP && SP->dbfp) PDC_debug x
+# define PDC_LOG(fmt, args...)   serial_printf(fmt ,##args)
 #else
-# define PDC_LOG(x)
+# define PDC_LOG(fmt, args...)
+#endif
+
+#ifdef __U_BOOT__
+# define PDC_perror(fmt, args...)   printf ("ERROR: " fmt ,##args)
+#else
+# define PDC_perror(fmt, args...)   fprintf (stderr, fmt ,##args)
 #endif
 
 /* Internal macros for attributes */

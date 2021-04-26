@@ -1,6 +1,6 @@
 /* PDCurses */
 
-#include <curspriv.h>
+#include "../curspriv.h"
 #include <assert.h>
 
 /*man-start**************************************************************
@@ -138,8 +138,8 @@ WINDOW *PDC_makenew(int nlines, int ncols, int begy, int begx)
 {
     WINDOW *win;
 
-    PDC_LOG(("PDC_makenew() - called: lines %d cols %d begy %d begx %d\n",
-             nlines, ncols, begy, begx));
+    PDC_LOG("PDC_makenew() - called: lines %d cols %d begy %d begx %d\n",
+             nlines, ncols, begy, begx);
 
     /* allocate the window structure itself */
 
@@ -190,7 +190,7 @@ WINDOW *PDC_makelines(WINDOW *win)
 {
     int i, nlines, ncols;
 
-    PDC_LOG(("PDC_makelines() - called\n"));
+    PDC_LOG("PDC_makelines() - called\n");
 
     assert( win);
     if (!win)
@@ -218,7 +218,7 @@ WINDOW *PDC_makelines(WINDOW *win)
 
 void PDC_sync(WINDOW *win)
 {
-    PDC_LOG(("PDC_sync() - called:\n"));
+    PDC_LOG("PDC_sync() - called:\n");
 
     if (win->_immed)
         wrefresh(win);
@@ -230,8 +230,8 @@ WINDOW *newwin(int nlines, int ncols, int begy, int begx)
 {
     WINDOW *win;
 
-    PDC_LOG(("newwin() - called:lines=%d cols=%d begy=%d begx=%d\n",
-             nlines, ncols, begy, begx));
+    PDC_LOG("newwin() - called:lines=%d cols=%d begy=%d begx=%d\n",
+             nlines, ncols, begy, begx);
 
     if (!nlines)
         nlines = LINES - begy;
@@ -254,7 +254,7 @@ WINDOW *newwin(int nlines, int ncols, int begy, int begx)
 
 int delwin(WINDOW *win)
 {
-    PDC_LOG(("delwin() - called\n"));
+    PDC_LOG("delwin() - called\n");
 
     assert( win);
     if (!win)
@@ -275,7 +275,7 @@ int delwin(WINDOW *win)
 
 int mvwin(WINDOW *win, int y, int x)
 {
-    PDC_LOG(("mvwin() - called\n"));
+    PDC_LOG("mvwin() - called\n");
 
     assert( win);
     if (!win || (y + win->_maxy > LINES || y < 0)
@@ -294,8 +294,8 @@ WINDOW *subwin(WINDOW *orig, int nlines, int ncols, int begy, int begx)
     WINDOW *win;
     int i, j, k;
 
-    PDC_LOG(("subwin() - called: lines %d cols %d begy %d begx %d\n",
-             nlines, ncols, begy, begx));
+    PDC_LOG("subwin() - called: lines %d cols %d begy %d begx %d\n",
+             nlines, ncols, begy, begx);
 
     /* make sure window fits inside the original one */
 
@@ -435,8 +435,8 @@ WINDOW *resize_window(WINDOW *win, int nlines, int ncols)
     WINDOW *new;
     int save_cury, save_curx, new_begy, new_begx;
 
-    PDC_LOG(("resize_window() - called: nlines %d ncols %d\n",
-             nlines, ncols));
+    PDC_LOG("resize_window() - called: nlines %d ncols %d\n",
+             nlines, ncols);
 
     assert( SP);
     assert( win);
@@ -528,7 +528,7 @@ void wsyncup(WINDOW *win)
 {
     WINDOW *tmp;
 
-    PDC_LOG(("wsyncup() - called\n"));
+    PDC_LOG("wsyncup() - called\n");
 
     for (tmp = win; tmp; tmp = tmp->_parent)
         touchwin(tmp);
@@ -536,7 +536,7 @@ void wsyncup(WINDOW *win)
 
 int syncok(WINDOW *win, bool bf)
 {
-    PDC_LOG(("syncok() - called\n"));
+    PDC_LOG("syncok() - called\n");
 
     assert( win);
     if (!win)
@@ -551,7 +551,7 @@ void wcursyncup(WINDOW *win)
 {
     WINDOW *tmp;
 
-    PDC_LOG(("wcursyncup() - called\n"));
+    PDC_LOG("wcursyncup() - called\n");
 
     for (tmp = win; tmp && tmp->_parent; tmp = tmp->_parent)
         wmove(tmp->_parent, tmp->_pary + tmp->_cury, tmp->_parx + tmp->_curx);
@@ -561,7 +561,7 @@ void wsyncdown(WINDOW *win)
 {
     WINDOW *tmp;
 
-    PDC_LOG(("wsyncdown() - called\n"));
+    PDC_LOG("wsyncdown() - called\n");
 
     for (tmp = win; tmp; tmp = tmp->_parent)
     {
