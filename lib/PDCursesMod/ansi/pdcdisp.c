@@ -4,10 +4,15 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
-#include <unistd.h>
 
-#include "curspriv.h"
+#include "../curspriv.h"
 #include "pdcansi.h"
+
+#ifdef __U_BOOT__
+#include <stdio.h>
+#include <console.h>
+#include <stdio_dev.h>
+#endif
 
 #ifdef PDC_WIDE
    #define USE_UNICODE_ACS_CHARS 1
@@ -26,6 +31,24 @@
 
 static void put_to_stdout( const char *buff, size_t bytes_out)
 {
+#ifdef __U_BOOT__
+	if (buff) {
+#ifdef PDCDEBUG
+		struct stdio_dev *vidconsole = console_search_dev(DEV_FLAGS_OUTPUT, "vidconsole");
+		if (vidconsole) {                        
+#endif
+			for (int i = 0; i < bytes_out; i++) {
+#ifdef PDCDEBUG
+				vidconsole->putc(vidconsole, buff[i]);
+#else
+				putc(buff[i]);
+#endif
+			}
+#ifdef PDCDEBUG
+		}                                     
+#endif
+	}
+#else
     static char *tbuff = NULL;
     static size_t bytes_cached;
     const int stdout_fd = 1;
@@ -66,6 +89,7 @@ static void put_to_stdout( const char *buff, size_t bytes_out)
                     memmove( tbuff, tbuff + bytes_written, bytes_cached);
             }
     }
+#endif
 }
 
 void PDC_puts_to_stdout( const char *buff)
@@ -301,5 +325,10 @@ void PDC_transform_line(int lineno, int x, int len, const chtype *srcp)
 
 void PDC_doupdate(void)
 {
+#ifdef __U_BOOT__
+	// Nothing to do
+	PDC_napms(15);
+#else
     put_to_stdout( NULL, 0);
+#endif
 }

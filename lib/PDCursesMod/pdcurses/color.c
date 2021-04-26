@@ -1,6 +1,6 @@
 /* PDCurses */
 
-#include <curspriv.h>
+#include "../curspriv.h"
 
 /*man-start**************************************************************
 
@@ -123,7 +123,7 @@ static int first_col = 0;
 
 int start_color(void)
 {
-    PDC_LOG(("start_color() - called\n"));
+    PDC_LOG("start_color() - called\n");
 
     assert( SP);
     if (!SP || SP->mono)
@@ -133,7 +133,9 @@ int start_color(void)
 
     PDC_set_blink(FALSE);   /* Also sets COLORS */
 
+#ifndef __U_BOOT__
     if (!default_colors && SP->orig_attr && getenv("PDC_ORIGINAL_COLORS"))
+#endif
         default_colors = TRUE;
 
     PDC_init_atrtab();
@@ -215,7 +217,7 @@ static void _init_pair_core(int pair, int fg, int bg)
 
 int init_extended_pair(int pair, int fg, int bg)
 {
-    PDC_LOG(("init_pair() - called: pair %d fg %d bg %d\n", pair, fg, bg));
+    PDC_LOG("init_pair() - called: pair %d fg %d bg %d\n", pair, fg, bg);
 
     assert( SP);
     if (!SP || !SP->color_started || pair < 1 || pair >= COLOR_PAIRS ||
@@ -229,7 +231,7 @@ int init_extended_pair(int pair, int fg, int bg)
 
 bool has_colors(void)
 {
-    PDC_LOG(("has_colors() - called\n"));
+    PDC_LOG("has_colors() - called\n");
 
     assert( SP);
     return SP ? !(SP->mono) : FALSE;
@@ -237,7 +239,7 @@ bool has_colors(void)
 
 int init_extended_color(int color, int red, int green, int blue)
 {
-    PDC_LOG(("init_color() - called\n"));
+    PDC_LOG("init_color() - called\n");
 
     assert( SP);
     if (!SP || color < 0 || color >= COLORS || !PDC_can_change_color() ||
@@ -252,7 +254,7 @@ int init_extended_color(int color, int red, int green, int blue)
 
 int extended_color_content(int color, int *red, int *green, int *blue)
 {
-    PDC_LOG(("color_content() - called\n"));
+    PDC_LOG("color_content() - called\n");
 
     if (color < 0 || color >= COLORS || !red || !green || !blue)
         return ERR;
@@ -276,14 +278,14 @@ int extended_color_content(int color, int *red, int *green, int *blue)
 
 bool can_change_color(void)
 {
-    PDC_LOG(("can_change_color() - called\n"));
+    PDC_LOG("can_change_color() - called\n");
 
     return PDC_can_change_color();
 }
 
 int extended_pair_content(int pair, int *fg, int *bg)
 {
-    PDC_LOG(("pair_content() - called\n"));
+    PDC_LOG("pair_content() - called\n");
 
     if (pair < 0 || pair >= COLOR_PAIRS || !fg || !bg)
         return ERR;
@@ -303,7 +305,7 @@ int extended_pair_content(int pair, int *fg, int *bg)
 
 int assume_default_colors(int f, int b)
 {
-    PDC_LOG(("assume_default_colors() - called: f %d b %d\n", f, b));
+    PDC_LOG("assume_default_colors() - called: f %d b %d\n", f, b);
 
     if (f < -1 || f >= COLORS || b < -1 || b >= COLORS)
         return ERR;
@@ -319,7 +321,7 @@ int assume_default_colors(int f, int b)
 
 int use_default_colors(void)
 {
-    PDC_LOG(("use_default_colors() - called\n"));
+    PDC_LOG("use_default_colors() - called\n");
 
     default_colors = TRUE;
     first_col = -1;
@@ -329,7 +331,7 @@ int use_default_colors(void)
 
 int PDC_set_line_color(short color)
 {
-    PDC_LOG(("PDC_set_line_color() - called: %d\n", color));
+    PDC_LOG("PDC_set_line_color() - called: %d\n", color);
 
     assert( SP);
     if (!SP || color < -1 || color >= COLORS)

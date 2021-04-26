@@ -1,6 +1,6 @@
 /* PDCurses */
 
-#include <curspriv.h>
+#include "../curspriv.h"
 #include <assert.h>
 
 /*man-start**************************************************************
@@ -55,7 +55,7 @@ attr
    These functions manipulate the current attributes and/or colors of
    the named window. These attributes can be any combination of
    A_STANDOUT, A_REVERSE, A_BOLD, A_DIM, A_BLINK, A_UNDERLINE. These
-   constants are defined in <curses.h> and can be combined with the
+   constants are defined in <PDCurses/curses.h> and can be combined with the
    bitwise-OR operator (|).
 
    The current attributes of a window are applied to all chtypes that
@@ -132,7 +132,7 @@ attr
 
 int wattroff(WINDOW *win, chtype attrs)
 {
-    PDC_LOG(("wattroff() - called\n"));
+    PDC_LOG("wattroff() - called\n");
 
     assert( win);
     if (!win)
@@ -145,7 +145,7 @@ int wattroff(WINDOW *win, chtype attrs)
 
 int attroff(chtype attrs)
 {
-    PDC_LOG(("attroff() - called\n"));
+    PDC_LOG("attroff() - called\n");
 
     return wattroff(stdscr, attrs);
 }
@@ -154,7 +154,7 @@ int wattron(WINDOW *win, chtype attrs)
 {
     chtype newcolr, oldcolr, newattr, oldattr;
 
-    PDC_LOG(("wattron() - called\n"));
+    PDC_LOG("wattron() - called\n");
 
     assert( win);
     if (!win)
@@ -177,14 +177,14 @@ int wattron(WINDOW *win, chtype attrs)
 
 int attron(chtype attrs)
 {
-    PDC_LOG(("attron() - called\n"));
+    PDC_LOG("attron() - called\n");
 
     return wattron(stdscr, attrs);
 }
 
 int wattrset(WINDOW *win, chtype attrs)
 {
-    PDC_LOG(("wattrset() - called\n"));
+    PDC_LOG("wattrset() - called\n");
 
     assert( win);
     if (!win)
@@ -197,35 +197,35 @@ int wattrset(WINDOW *win, chtype attrs)
 
 int attrset(chtype attrs)
 {
-    PDC_LOG(("attrset() - called\n"));
+    PDC_LOG("attrset() - called\n");
 
     return wattrset(stdscr, attrs);
 }
 
 int standend(void)
 {
-    PDC_LOG(("standend() - called\n"));
+    PDC_LOG("standend() - called\n");
 
     return wattrset(stdscr, A_NORMAL);
 }
 
 int standout(void)
 {
-    PDC_LOG(("standout() - called\n"));
+    PDC_LOG("standout() - called\n");
 
     return wattrset(stdscr, A_STANDOUT);
 }
 
 int wstandend(WINDOW *win)
 {
-    PDC_LOG(("wstandend() - called\n"));
+    PDC_LOG("wstandend() - called\n");
 
     return wattrset(win, A_NORMAL);
 }
 
 int wstandout(WINDOW *win)
 {
-    PDC_LOG(("wstandout() - called\n"));
+    PDC_LOG("wstandout() - called\n");
 
     return wattrset(win, A_STANDOUT);
 }
@@ -238,7 +238,7 @@ chtype getattrs(WINDOW *win)
 
 int wcolor_set(WINDOW *win, short color_pair, void *opts)
 {
-    PDC_LOG(("wcolor_set() - called\n"));
+    PDC_LOG("wcolor_set() - called\n");
 
     INTENTIONALLY_UNUSED_PARAMETER( opts);
     assert( win);
@@ -252,14 +252,14 @@ int wcolor_set(WINDOW *win, short color_pair, void *opts)
 
 int color_set(short color_pair, void *opts)
 {
-    PDC_LOG(("color_set() - called\n"));
+    PDC_LOG("color_set() - called\n");
 
     return wcolor_set(stdscr, color_pair, opts);
 }
 
 int wattr_get(WINDOW *win, attr_t *attrs, short *color_pair, void *opts)
 {
-    PDC_LOG(("wattr_get() - called\n"));
+    PDC_LOG("wattr_get() - called\n");
 
     INTENTIONALLY_UNUSED_PARAMETER( opts);
     assert( win);
@@ -277,14 +277,14 @@ int wattr_get(WINDOW *win, attr_t *attrs, short *color_pair, void *opts)
 
 int attr_get(attr_t *attrs, short *color_pair, void *opts)
 {
-    PDC_LOG(("attr_get() - called\n"));
+    PDC_LOG("attr_get() - called\n");
 
     return wattr_get(stdscr, attrs, color_pair, opts);
 }
 
 int wattr_off(WINDOW *win, attr_t attrs, void *opts)
 {
-    PDC_LOG(("wattr_off() - called\n"));
+    PDC_LOG("wattr_off() - called\n");
 
     INTENTIONALLY_UNUSED_PARAMETER( opts);
     return wattroff(win, attrs);
@@ -292,7 +292,7 @@ int wattr_off(WINDOW *win, attr_t attrs, void *opts)
 
 int attr_off(attr_t attrs, void *opts)
 {
-    PDC_LOG(("attr_off() - called\n"));
+    PDC_LOG("attr_off() - called\n");
 
     INTENTIONALLY_UNUSED_PARAMETER( opts);
     return wattroff(stdscr, attrs);
@@ -300,7 +300,7 @@ int attr_off(attr_t attrs, void *opts)
 
 int wattr_on(WINDOW *win, attr_t attrs, void *opts)
 {
-    PDC_LOG(("wattr_off() - called\n"));
+    PDC_LOG("wattr_off() - called\n");
 
     INTENTIONALLY_UNUSED_PARAMETER( opts);
     return wattron(win, attrs);
@@ -308,7 +308,7 @@ int wattr_on(WINDOW *win, attr_t attrs, void *opts)
 
 int attr_on(attr_t attrs, void *opts)
 {
-    PDC_LOG(("attr_on() - called\n"));
+    PDC_LOG("attr_on() - called\n");
 
     INTENTIONALLY_UNUSED_PARAMETER( opts);
     return wattron(stdscr, attrs);
@@ -316,7 +316,7 @@ int attr_on(attr_t attrs, void *opts)
 
 int wattr_set(WINDOW *win, attr_t attrs, short color_pair, void *opts)
 {
-    PDC_LOG(("wattr_set() - called\n"));
+    PDC_LOG("wattr_set() - called\n");
 
     INTENTIONALLY_UNUSED_PARAMETER( opts);
     assert( win);
@@ -330,7 +330,7 @@ int wattr_set(WINDOW *win, attr_t attrs, short color_pair, void *opts)
 
 int attr_set(attr_t attrs, short color_pair, void *opts)
 {
-    PDC_LOG(("attr_get() - called\n"));
+    PDC_LOG("attr_get() - called\n");
 
     return wattr_set(stdscr, attrs, color_pair, opts);
 }
@@ -341,7 +341,7 @@ int wchgat(WINDOW *win, int n, attr_t attr, short color, const void *opts)
     int startpos, endpos;
 
     INTENTIONALLY_UNUSED_PARAMETER( opts);
-    PDC_LOG(("wchgat() - called\n"));
+    PDC_LOG("wchgat() - called\n");
 
     assert( win);
     if (!win)
@@ -371,14 +371,14 @@ int wchgat(WINDOW *win, int n, attr_t attr, short color, const void *opts)
 
 int chgat(int n, attr_t attr, short color, const void *opts)
 {
-    PDC_LOG(("chgat() - called\n"));
+    PDC_LOG("chgat() - called\n");
 
     return wchgat(stdscr, n, attr, color, opts);
 }
 
 int mvchgat(int y, int x, int n, attr_t attr, short color, const void *opts)
 {
-    PDC_LOG(("mvchgat() - called\n"));
+    PDC_LOG("mvchgat() - called\n");
 
     if (move(y, x) == ERR)
         return ERR;
@@ -389,7 +389,7 @@ int mvchgat(int y, int x, int n, attr_t attr, short color, const void *opts)
 int mvwchgat(WINDOW *win, int y, int x, int n, attr_t attr, short color,
              const void *opts)
 {
-    PDC_LOG(("mvwchgat() - called\n"));
+    PDC_LOG("mvwchgat() - called\n");
 
     if (wmove(win, y, x) == ERR)
         return ERR;
@@ -399,28 +399,28 @@ int mvwchgat(WINDOW *win, int y, int x, int n, attr_t attr, short color,
 
 int underend(void)
 {
-    PDC_LOG(("underend() - called\n"));
+    PDC_LOG("underend() - called\n");
 
     return wattroff(stdscr, A_UNDERLINE);
 }
 
 int wunderend(WINDOW *win)
 {
-    PDC_LOG(("wunderend() - called\n"));
+    PDC_LOG("wunderend() - called\n");
 
     return wattroff(win, A_UNDERLINE);
 }
 
 int underscore(void)
 {
-    PDC_LOG(("underscore() - called\n"));
+    PDC_LOG("underscore() - called\n");
 
     return wattron(stdscr, A_UNDERLINE);
 }
 
 int wunderscore(WINDOW *win)
 {
-    PDC_LOG(("wunderscore() - called\n"));
+    PDC_LOG("wunderscore() - called\n");
 
     return wattron(win, A_UNDERLINE);
 }

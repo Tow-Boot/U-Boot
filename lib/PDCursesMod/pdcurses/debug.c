@@ -1,6 +1,6 @@
 /* PDCurses */
 
-#include <curspriv.h>
+#include "../curspriv.h"
 #include <assert.h>
 
 /*man-start**************************************************************
@@ -35,15 +35,20 @@ debug
 
 **man-end****************************************************************/
 
+#ifndef __U_BOOT__
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
 #include <time.h>
+#endif
 
+#ifndef __U_BOOT__
 static bool want_fflush = FALSE;
+#endif
 
 void PDC_debug(const char *fmt, ...)
 {
+#ifndef __U_BOOT__
     va_list args;
     char hms[9];
     time_t now;
@@ -71,10 +76,12 @@ void PDC_debug(const char *fmt, ...)
        crashes, you may need to add a platform-dependent mechanism to
        flush the OS buffers as well (such as fsync() on POSIX) -- but
        expect terrible performance. */
+#endif
 }
 
 void traceon(void)
 {
+#ifndef __U_BOOT__
     assert( SP);
     if (!SP)
         return;
@@ -93,18 +100,21 @@ void traceon(void)
     if (getenv("PDC_TRACE_FLUSH"))
         want_fflush = TRUE;
 
-    PDC_LOG(("traceon() - called\n"));
+    PDC_LOG("traceon() - called\n");
+#endif
 }
 
 void traceoff(void)
 {
+#ifndef __U_BOOT__
     assert( SP);
     if (!SP || !SP->dbfp)
         return;
 
-    PDC_LOG(("traceoff() - called\n"));
+    PDC_LOG("traceoff() - called\n");
 
     fclose(SP->dbfp);
     SP->dbfp = NULL;
     want_fflush = FALSE;
+#endif
 }

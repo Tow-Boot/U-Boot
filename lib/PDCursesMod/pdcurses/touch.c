@@ -1,6 +1,6 @@
 /* PDCurses */
 
-#include <curspriv.h>
+#include "../curspriv.h"
 #include <assert.h>
 
 /*man-start**************************************************************
@@ -65,7 +65,7 @@ int touchwin(WINDOW *win)
 {
     int i;
 
-    PDC_LOG(("touchwin() - called: Win=%x\n", win));
+    PDC_LOG("touchwin() - called: Win=%x\n", win);
 
     assert( win);
     if (!win)
@@ -84,8 +84,8 @@ int touchline(WINDOW *win, int start, int count)
 {
     int i;
 
-    PDC_LOG(("touchline() - called: win=%p start %d count %d\n",
-             win, start, count));
+    PDC_LOG("touchline() - called: win=%p start %d count %d\n",
+             win, start, count);
 
     assert( win);
     if (!win || start > win->_maxy || start + count > win->_maxy)
@@ -104,7 +104,7 @@ int untouchwin(WINDOW *win)
 {
     int i;
 
-    PDC_LOG(("untouchwin() - called: win=%p", win));
+    PDC_LOG("untouchwin() - called: win=%p", win);
 
     assert( win);
     if (!win)
@@ -123,8 +123,8 @@ int wtouchln(WINDOW *win, int y, int n, int changed)
 {
     int i;
 
-    PDC_LOG(("wtouchln() - called: win=%p y=%d n=%d changed=%d\n",
-             win, y, n, changed));
+    PDC_LOG("wtouchln() - called: win=%p y=%d n=%d changed=%d\n",
+             win, y, n, changed);
 
     assert( win);
     if (!win || y > win->_maxy || y + n > win->_maxy)
@@ -149,7 +149,7 @@ int wtouchln(WINDOW *win, int y, int n, int changed)
 
 bool is_linetouched(WINDOW *win, int line)
 {
-    PDC_LOG(("is_linetouched() - called: win=%p line=%d\n", win, line));
+    PDC_LOG("is_linetouched() - called: win=%p line=%d\n", win, line);
 
     assert( win);
     if (!win || line > win->_maxy || line < 0)
@@ -162,7 +162,7 @@ bool is_wintouched(WINDOW *win)
 {
     int i;
 
-    PDC_LOG(("is_wintouched() - called: win=%p\n", win));
+    PDC_LOG("is_wintouched() - called: win=%p\n", win);
 
     assert( win);
     if (win)
@@ -177,7 +177,7 @@ int touchoverlap(const WINDOW *win1, WINDOW *win2)
 {
     int y, endy, endx, starty, startx;
 
-    PDC_LOG(("touchoverlap() - called: win1=%p win2=%p\n", win1, win2));
+    PDC_LOG("touchoverlap() - called: win1=%p win2=%p\n", win1, win2);
 
     assert( win1);
     assert( win2);

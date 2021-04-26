@@ -1,6 +1,6 @@
 /* PDCurses */
 
-#include <curspriv.h>
+#include "../curspriv.h"
 #include <assert.h>
 
 /*man-start**************************************************************
@@ -38,7 +38,7 @@ move
 
 int move(int y, int x)
 {
-    PDC_LOG(("move() - called: y=%d x=%d\n", y, x));
+    PDC_LOG("move() - called: y=%d x=%d\n", y, x);
 
     assert( stdscr);
     if (!stdscr || x < 0 || y < 0 || x >= stdscr->_maxx || y >= stdscr->_maxy)
@@ -52,8 +52,8 @@ int move(int y, int x)
 
 int mvcur(int oldrow, int oldcol, int newrow, int newcol)
 {
-    PDC_LOG(("mvcur() - called: oldrow %d oldcol %d newrow %d newcol %d\n",
-             oldrow, oldcol, newrow, newcol));
+    PDC_LOG("mvcur() - called: oldrow %d oldcol %d newrow %d newcol %d\n",
+             oldrow, oldcol, newrow, newcol);
 
     assert( SP);
     INTENTIONALLY_UNUSED_PARAMETER( oldrow);
@@ -70,7 +70,7 @@ int mvcur(int oldrow, int oldcol, int newrow, int newcol)
 
 int wmove(WINDOW *win, int y, int x)
 {
-    PDC_LOG(("wmove() - called: y=%d x=%d\n", y, x));
+    PDC_LOG("wmove() - called: y=%d x=%d\n", y, x);
 
     assert( win);
     if (!win || x < 0 || y < 0 || x >= win->_maxx || y >= win->_maxy)

@@ -27,7 +27,7 @@ http://www.tldp.org/HOWTO/NCURSES-Programming-HOWTO/panels.html
 
 #define PDC_NCMOUSE
 
-#include <panel.h>
+#include <PDCurses/panel.h>
 #include <stdio.h>
 #include <assert.h>
 

@@ -8,7 +8,7 @@
 #ifndef _TUI_H_
 #define _TUI_H_
 
-#include <curses.h>
+#include <PDCurses/curses.h>
 
 #ifdef A_COLOR
 #define A_ATTR  (A_ATTRIBUTES ^ A_COLOR)  /* A_BLINK, A_REVERSE, A_BOLD */

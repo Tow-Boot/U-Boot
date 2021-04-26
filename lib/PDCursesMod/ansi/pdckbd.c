@@ -1,10 +1,16 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
-#include <sys/select.h>
-#include <unistd.h>
-#include "curspriv.h"
+#include "../curspriv.h"
 #include "pdcansi.h"
+
+#ifndef __U_BOOT__
+#include <sys/select.h>
+#endif
+
+#ifdef __U_BOOT__
+#include <linux/delay.h>
+#endif
 
 /* Modified from the accepted answer at
 
@@ -25,6 +31,17 @@ extern bool PDC_resize_occurred;
 
 static bool check_key( int *c)
 {
+#ifdef __U_BOOT__
+    PDC_napms(0);
+    if (tstc()) {
+        if (c) {
+            *c = getchar();
+        }
+        return TRUE;
+    }
+
+    return FALSE;
+#else
     bool rval;
     const int STDIN = 0;
     struct timeval timeout;
@@ -45,6 +62,7 @@ static bool check_key( int *c)
     else
        rval = FALSE;
     return( rval);
+#endif
 }
 
 bool PDC_check_key( void)

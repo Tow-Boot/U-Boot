@@ -1,6 +1,6 @@
 /* PDCurses */
 
-#include <curspriv.h>
+#include "../curspriv.h"
 #include <assert.h>
 
 /*man-start**************************************************************
@@ -76,42 +76,42 @@ termattr
 
 int baudrate(void)
 {
-    PDC_LOG(("baudrate() - called\n"));
+    PDC_LOG("baudrate() - called\n");
 
     return INT_MAX;
 }
 
 char erasechar(void)
 {
-    PDC_LOG(("erasechar() - called\n"));
+    PDC_LOG("erasechar() - called\n");
 
     return _ECHAR;      /* character delete char (^H) */
 }
 
 bool has_ic(void)
 {
-    PDC_LOG(("has_ic() - called\n"));
+    PDC_LOG("has_ic() - called\n");
 
     return TRUE;
 }
 
 bool has_il(void)
 {
-    PDC_LOG(("has_il() - called\n"));
+    PDC_LOG("has_il() - called\n");
 
     return TRUE;
 }
 
 char killchar(void)
 {
-    PDC_LOG(("killchar() - called\n"));
+    PDC_LOG("killchar() - called\n");
 
     return _DLCHAR;     /* line delete char (^U) */
 }
 
 char *longname(void)
 {
-    PDC_LOG(("longname() - called\n"));
+    PDC_LOG("longname() - called\n");
 
     sprintf(ttytype, "pdcurses|PDCurses for %s", PDC_sysname());
     return ttytype + 9; /* skip "pdcurses|" */
@@ -119,14 +119,14 @@ char *longname(void)
 
 chtype termattrs(void)
 {
-    PDC_LOG(("termattrs() - called\n"));
+    PDC_LOG("termattrs() - called\n");
 
     return SP ? SP->termattrs : (chtype)0;
 }
 
 attr_t term_attrs(void)
 {
-    PDC_LOG(("term_attrs() - called\n"));
+    PDC_LOG("term_attrs() - called\n");
 
     return SP ? SP->termattrs : (attr_t)0;
 }
@@ -135,14 +135,14 @@ char *termname(void)
 {
     static char _termname[14] = "pdcurses";
 
-    PDC_LOG(("termname() - called\n"));
+    PDC_LOG("termname() - called\n");
 
     return _termname;
 }
 
 char wordchar(void)
 {
-    PDC_LOG(("wordchar() - called\n"));
+    PDC_LOG("wordchar() - called\n");
 
     return _DWCHAR;         /* word delete char */
 }
@@ -150,7 +150,7 @@ char wordchar(void)
 #ifdef PDC_WIDE
 int erasewchar(wchar_t *ch)
 {
-    PDC_LOG(("erasewchar() - called\n"));
+    PDC_LOG("erasewchar() - called\n");
 
     assert( ch);
     if (!ch)
@@ -163,7 +163,7 @@ int erasewchar(wchar_t *ch)
 
 int killwchar(wchar_t *ch)
 {
-    PDC_LOG(("killwchar() - called\n"));
+    PDC_LOG("killwchar() - called\n");
 
     assert( ch);
     if (!ch)

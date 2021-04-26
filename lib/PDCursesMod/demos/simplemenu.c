@@ -1,5 +1,12 @@
-#include <curses.h>
+#include <PDCurses/curses.h>
+
+#ifdef __U_BOOT__
+#include <command.h>
+#include <linux/compat.h>
+#include <vsprintf.h>
+#else
 #include <stdlib.h>
+#endif
 
 #define str(s) #s
 #define xstr(s) str(s)
@@ -92,7 +99,11 @@ void add_entry(menustate *state, char* label) {
 	state->last_entry = entry;
 }
 
+#ifndef __U_BOOT__
 int main(void) {
+#else
+static int do_demo_simplemenu(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[]) {
+#endif
 	menustate state = {
 		.last_entry = NULL,
 		.first_entry = NULL,
@@ -128,7 +139,7 @@ int main(void) {
 
 	mvwin(
 		state.window,
-		(LINES-menu_height)/2,
+		(LINES-menu_height-2)/2,
 		(COLS-menu_width)/2
 	);
 
@@ -173,4 +184,8 @@ int main(void) {
 	delwin(state.window);
 	wrefresh(stdscr);
 	endwin();
+
+	return 0;
 }
+
+U_BOOT_CMD(demo_simplemenu, 1, 0, do_demo_simplemenu, "PDCurses simplemenu demo...", "demo_simplemenu")

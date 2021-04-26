@@ -1,6 +1,6 @@
 /* PDCurses */
 
-#include <curspriv.h>
+#include "../curspriv.h"
 #include <assert.h>
 
 /*man-start**************************************************************
@@ -39,7 +39,7 @@ getch
 
    If keypad() is TRUE, and a function key is pressed, the token for
    that function key will be returned instead of the raw characters.
-   Possible function keys are defined in <curses.h> with integers
+   Possible function keys are defined in <PDCurses/curses.h> with integers
    beginning with 0401, whose names begin with KEY_.
 
    If nodelay(win, TRUE) has been called on the window and no input is
@@ -341,7 +341,7 @@ int wgetch(WINDOW *win)
 {
     int key, remaining_millisecs;
 
-    PDC_LOG(("wgetch() - called\n"));
+    PDC_LOG("wgetch() - called\n");
 
     assert( SP);
     assert( win);
@@ -477,7 +477,7 @@ int wgetch(WINDOW *win)
 
 int mvgetch(int y, int x)
 {
-    PDC_LOG(("mvgetch() - called\n"));
+    PDC_LOG("mvgetch() - called\n");
 
     if (move(y, x) == ERR)
         return ERR;
@@ -487,7 +487,7 @@ int mvgetch(int y, int x)
 
 int mvwgetch(WINDOW *win, int y, int x)
 {
-    PDC_LOG(("mvwgetch() - called\n"));
+    PDC_LOG("mvwgetch() - called\n");
 
     if (wmove(win, y, x) == ERR)
         return ERR;
@@ -497,7 +497,7 @@ int mvwgetch(WINDOW *win, int y, int x)
 
 int PDC_ungetch(int ch)
 {
-    PDC_LOG(("ungetch() - called\n"));
+    PDC_LOG("ungetch() - called\n");
 
     if (SP->c_ungind >= SP->c_ungmax)   /* pushback stack full */
         return ERR;
@@ -509,7 +509,7 @@ int PDC_ungetch(int ch)
 
 int flushinp(void)
 {
-    PDC_LOG(("flushinp() - called\n"));
+    PDC_LOG("flushinp() - called\n");
 
     assert( SP);
     if (!SP)
@@ -526,7 +526,7 @@ int flushinp(void)
 
 unsigned long PDC_get_key_modifiers(void)
 {
-    PDC_LOG(("PDC_get_key_modifiers() - called\n"));
+    PDC_LOG("PDC_get_key_modifiers() - called\n");
 
     assert( SP);
     if (!SP)
@@ -537,7 +537,7 @@ unsigned long PDC_get_key_modifiers(void)
 
 int PDC_return_key_modifiers(bool flag)
 {
-    PDC_LOG(("PDC_return_key_modifiers() - called\n"));
+    PDC_LOG("PDC_return_key_modifiers() - called\n");
 
     assert( SP);
     if (!SP)
@@ -552,7 +552,7 @@ int wget_wch(WINDOW *win, wint_t *wch)
 {
     int key;
 
-    PDC_LOG(("wget_wch() - called\n"));
+    PDC_LOG("wget_wch() - called\n");
 
     assert( wch);
     if (!wch)
@@ -570,14 +570,14 @@ int wget_wch(WINDOW *win, wint_t *wch)
 
 int get_wch(wint_t *wch)
 {
-    PDC_LOG(("get_wch() - called\n"));
+    PDC_LOG("get_wch() - called\n");
 
     return wget_wch(stdscr, wch);
 }
 
 int mvget_wch(int y, int x, wint_t *wch)
 {
-    PDC_LOG(("mvget_wch() - called\n"));
+    PDC_LOG("mvget_wch() - called\n");
 
     if (move(y, x) == ERR)
         return ERR;
@@ -587,7 +587,7 @@ int mvget_wch(int y, int x, wint_t *wch)
 
 int mvwget_wch(WINDOW *win, int y, int x, wint_t *wch)
 {
-    PDC_LOG(("mvwget_wch() - called\n"));
+    PDC_LOG("mvwget_wch() - called\n");
 
     if (wmove(win, y, x) == ERR)
         return ERR;

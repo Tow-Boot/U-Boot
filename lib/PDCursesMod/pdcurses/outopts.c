@@ -1,6 +1,6 @@
 /* PDCurses */
 
-#include <curspriv.h>
+#include "../curspriv.h"
 #include <assert.h>
 
 /*man-start**************************************************************
@@ -74,7 +74,7 @@ outopts
 
 int clearok(WINDOW *win, bool bf)
 {
-    PDC_LOG(("clearok() - called\n"));
+    PDC_LOG("clearok() - called\n");
 
     assert( win);
     if (!win)
@@ -89,7 +89,7 @@ int idlok(WINDOW *win, bool bf)
 {
     INTENTIONALLY_UNUSED_PARAMETER( win);
     INTENTIONALLY_UNUSED_PARAMETER( bf);
-    PDC_LOG(("idlok() - called\n"));
+    PDC_LOG("idlok() - called\n");
 
     return OK;
 }
@@ -98,12 +98,12 @@ void idcok(WINDOW *win, bool bf)
 {
     INTENTIONALLY_UNUSED_PARAMETER( win);
     INTENTIONALLY_UNUSED_PARAMETER( bf);
-    PDC_LOG(("idcok() - called\n"));
+    PDC_LOG("idcok() - called\n");
 }
 
 void immedok(WINDOW *win, bool bf)
 {
-    PDC_LOG(("immedok() - called\n"));
+    PDC_LOG("immedok() - called\n");
 
     if (win)
         win->_immed = bf;
@@ -111,7 +111,7 @@ void immedok(WINDOW *win, bool bf)
 
 int leaveok(WINDOW *win, bool bf)
 {
-    PDC_LOG(("leaveok() - called\n"));
+    PDC_LOG("leaveok() - called\n");
 
     assert( win);
     if (!win)
@@ -126,14 +126,14 @@ int leaveok(WINDOW *win, bool bf)
 
 int setscrreg(int top, int bottom)
 {
-    PDC_LOG(("setscrreg() - called: top %d bottom %d\n", top, bottom));
+    PDC_LOG("setscrreg() - called: top %d bottom %d\n", top, bottom);
 
     return wsetscrreg(stdscr, top, bottom);
 }
 
 int wsetscrreg(WINDOW *win, int top, int bottom)
 {
-    PDC_LOG(("wsetscrreg() - called: top %d bottom %d\n", top, bottom));
+    PDC_LOG("wsetscrreg() - called: top %d bottom %d\n", top, bottom);
 
     assert( win);
     if (win && 0 <= top && top <= win->_cury &&
@@ -150,7 +150,7 @@ int wsetscrreg(WINDOW *win, int top, int bottom)
 
 int scrollok(WINDOW *win, bool bf)
 {
-    PDC_LOG(("scrollok() - called\n"));
+    PDC_LOG("scrollok() - called\n");
 
     assert( win);
     if (!win)
@@ -163,7 +163,7 @@ int scrollok(WINDOW *win, bool bf)
 
 int raw_output(bool bf)
 {
-    PDC_LOG(("raw_output() - called\n"));
+    PDC_LOG("raw_output() - called\n");
 
     assert( SP);
     if (!SP)
@@ -176,7 +176,7 @@ int raw_output(bool bf)
 
 bool is_leaveok(const WINDOW *win)
 {
-    PDC_LOG(("is_leaveok() - called\n"));
+    PDC_LOG("is_leaveok() - called\n");
 
     assert( win);
     if (!win)

@@ -1,6 +1,6 @@
 /* PDCurses */
 
-#include <curspriv.h>
+#include "../curspriv.h"
 #include <assert.h>
 
 /*man-start**************************************************************
@@ -75,7 +75,7 @@ int wnoutrefresh(WINDOW *win)
     int begy, begx;     /* window's place on screen   */
     int i, j;
 
-    PDC_LOG(("wnoutrefresh() - called: win=%p\n", win));
+    PDC_LOG("wnoutrefresh() - called: win=%p\n", win);
 
     assert( win);
     if ( !win || (win->_flags & (_PAD|_SUBPAD)) )
@@ -150,7 +150,7 @@ int doupdate(void)
     int y;
     bool clearall;
 
-    PDC_LOG(("doupdate() - called\n"));
+    PDC_LOG("doupdate() - called\n");
 
     assert( SP);
     assert( curscr);
@@ -168,9 +168,9 @@ int doupdate(void)
 
     for (y = 0; y < SP->lines; y++)
     {
-        PDC_LOG(("doupdate() - Transforming line %d of %d: %s\n",
+        PDC_LOG("doupdate() - Transforming line %d of %d: %s\n",
                  y, SP->lines, (curscr->_firstch[y] != _NO_CHANGE) ?
-                 "Yes" : "No"));
+                 "Yes" : "No");
 
         if (clearall || curscr->_firstch[y] != _NO_CHANGE)
         {
@@ -246,7 +246,7 @@ int wrefresh(WINDOW *win)
 {
     bool save_clear;
 
-    PDC_LOG(("wrefresh() - called\n"));
+    PDC_LOG("wrefresh() - called\n");
 
     assert( win);
     if ( !win || (win->_flags & (_PAD|_SUBPAD)) )
@@ -267,7 +267,7 @@ int wrefresh(WINDOW *win)
 
 int refresh(void)
 {
-    PDC_LOG(("refresh() - called\n"));
+    PDC_LOG("refresh() - called\n");
 
     return wrefresh(stdscr);
 }
@@ -276,8 +276,8 @@ int wredrawln(WINDOW *win, int start, int num)
 {
     int i;
 
-    PDC_LOG(("wredrawln() - called: win=%p start=%d num=%d\n",
-        win, start, num));
+    PDC_LOG("wredrawln() - called: win=%p start=%d num=%d\n",
+        win, start, num);
 
     assert( win);
     if (!win || start > win->_maxy || start + num > win->_maxy)
@@ -294,7 +294,7 @@ int wredrawln(WINDOW *win, int start, int num)
 
 int redrawwin(WINDOW *win)
 {
-    PDC_LOG(("redrawwin() - called: win=%p\n", win));
+    PDC_LOG("redrawwin() - called: win=%p\n", win);
 
     assert( win);
     if (!win)

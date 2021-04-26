@@ -1,6 +1,6 @@
 /* PDCurses */
 
-#include <curspriv.h>
+#include "../curspriv.h"
 
 /*man-start**************************************************************
 
@@ -63,12 +63,13 @@ scr_dump
 #define DUMPVER 1   /* Should be updated whenever the WINDOW struct is
                        changed */
 
+#ifndef __U_BOOT__
 int putwin(WINDOW *win, FILE *filep)
 {
     static const char *marker = "PDC";
     static const unsigned char version = DUMPVER;
 
-    PDC_LOG(("putwin() - called\n"));
+    PDC_LOG("putwin() - called\n");
 
     /* write the marker and the WINDOW struct */
 
@@ -96,7 +97,7 @@ WINDOW *getwin(FILE *filep)
     char marker[4];
     int i, nlines, ncols;
 
-    PDC_LOG(("getwin() - called\n"));
+    PDC_LOG("getwin() - called\n");
 
     win = malloc(sizeof(WINDOW));
     if (!win)
@@ -161,7 +162,7 @@ int scr_dump(const char *filename)
 {
     FILE *filep;
 
-    PDC_LOG(("scr_dump() - called: filename %s\n", filename));
+    PDC_LOG("scr_dump() - called: filename %s\n", filename);
 
     if (filename && (filep = fopen(filename, "wb")) != NULL)
     {
@@ -172,20 +173,22 @@ int scr_dump(const char *filename)
 
     return ERR;
 }
+#endif
 
 int scr_init(const char *filename)
 {
-    PDC_LOG(("scr_init() - called: filename %s\n", filename));
+    PDC_LOG("scr_init() - called: filename %s\n", filename);
 
     INTENTIONALLY_UNUSED_PARAMETER( filename);
     return OK;
 }
 
+#ifndef __U_BOOT__
 int scr_restore(const char *filename)
 {
     FILE *filep;
 
-    PDC_LOG(("scr_restore() - called: filename %s\n", filename));
+    PDC_LOG("scr_restore() - called: filename %s\n", filename);
 
     if (filename && (filep = fopen(filename, "rb")) != NULL)
     {
@@ -202,10 +205,13 @@ int scr_restore(const char *filename)
 
     return ERR;
 }
+#endif
 
+#ifndef __U_BOOT__
 int scr_set(const char *filename)
 {
-    PDC_LOG(("scr_set() - called: filename %s\n", filename));
+    PDC_LOG("scr_set() - called: filename %s\n", filename);
 
     return scr_restore(filename);
 }
+#endif

@@ -1,6 +1,6 @@
 /* PDCurses */
 
-#include <curspriv.h>
+#include "../curspriv.h"
 #include <assert.h>
 
 /*man-start**************************************************************
@@ -43,7 +43,7 @@ int wdelch(WINDOW *win)
     int y, x, maxx;
     chtype *temp1;
 
-    PDC_LOG(("wdelch() - called\n"));
+    PDC_LOG("wdelch() - called\n");
 
     assert( win);
     if (!win)
@@ -72,14 +72,14 @@ int wdelch(WINDOW *win)
 
 int delch(void)
 {
-    PDC_LOG(("delch() - called\n"));
+    PDC_LOG("delch() - called\n");
 
     return wdelch(stdscr);
 }
 
 int mvdelch(int y, int x)
 {
-    PDC_LOG(("mvdelch() - called\n"));
+    PDC_LOG("mvdelch() - called\n");
 
     if (move(y, x) == ERR)
         return ERR;
@@ -89,7 +89,7 @@ int mvdelch(int y, int x)
 
 int mvwdelch(WINDOW *win, int y, int x)
 {
-    PDC_LOG(("mvwdelch() - called\n"));
+    PDC_LOG("mvwdelch() - called\n");
 
     if (wmove(win, y, x) == ERR)
         return ERR;

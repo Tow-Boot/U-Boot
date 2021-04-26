@@ -1,6 +1,6 @@
 /* PDCurses */
 
-#include <curspriv.h>
+#include "../curspriv.h"
 #include <assert.h>
 
 /*man-start**************************************************************
@@ -64,7 +64,7 @@ int winchnstr(WINDOW *win, chtype *ch, int n)
     chtype *src;
     int i;
 
-    PDC_LOG(("winchnstr() - called\n"));
+    PDC_LOG("winchnstr() - called\n");
 
     assert( win);
     assert( ch);
@@ -86,21 +86,21 @@ int winchnstr(WINDOW *win, chtype *ch, int n)
 
 int inchstr(chtype *ch)
 {
-    PDC_LOG(("inchstr() - called\n"));
+    PDC_LOG("inchstr() - called\n");
 
     return winchnstr(stdscr, ch, stdscr->_maxx - stdscr->_curx);
 }
 
 int winchstr(WINDOW *win, chtype *ch)
 {
-    PDC_LOG(("winchstr() - called\n"));
+    PDC_LOG("winchstr() - called\n");
 
     return winchnstr(win, ch, win->_maxx - win->_curx);
 }
 
 int mvinchstr(int y, int x, chtype *ch)
 {
-    PDC_LOG(("mvinchstr() - called: y %d x %d\n", y, x));
+    PDC_LOG("mvinchstr() - called: y %d x %d\n", y, x);
 
     if (move(y, x) == ERR)
         return ERR;
@@ -110,7 +110,7 @@ int mvinchstr(int y, int x, chtype *ch)
 
 int mvwinchstr(WINDOW *win, int y, int x, chtype *ch)
 {
-    PDC_LOG(("mvwinchstr() - called:\n"));
+    PDC_LOG("mvwinchstr() - called:\n");
 
     if (wmove(win, y, x) == ERR)
         return ERR;
@@ -120,14 +120,14 @@ int mvwinchstr(WINDOW *win, int y, int x, chtype *ch)
 
 int inchnstr(chtype *ch, int n)
 {
-    PDC_LOG(("inchnstr() - called\n"));
+    PDC_LOG("inchnstr() - called\n");
 
     return winchnstr(stdscr, ch, n);
 }
 
 int mvinchnstr(int y, int x, chtype *ch, int n)
 {
-    PDC_LOG(("mvinchnstr() - called: y %d x %d n %d\n", y, x, n));
+    PDC_LOG("mvinchnstr() - called: y %d x %d n %d\n", y, x, n);
 
     if (move(y, x) == ERR)
         return ERR;
@@ -137,7 +137,7 @@ int mvinchnstr(int y, int x, chtype *ch, int n)
 
 int mvwinchnstr(WINDOW *win, int y, int x, chtype *ch, int n)
 {
-    PDC_LOG(("mvwinchnstr() - called: y %d x %d n %d \n", y, x, n));
+    PDC_LOG("mvwinchnstr() - called: y %d x %d n %d \n", y, x, n);
 
     if (wmove(win, y, x) == ERR)
         return ERR;
@@ -148,28 +148,28 @@ int mvwinchnstr(WINDOW *win, int y, int x, chtype *ch, int n)
 #ifdef PDC_WIDE
 int win_wchnstr(WINDOW *win, cchar_t *wch, int n)
 {
-    PDC_LOG(("win_wchnstr() - called\n"));
+    PDC_LOG("win_wchnstr() - called\n");
 
     return winchnstr(win, wch, n);
 }
 
 int in_wchstr(cchar_t *wch)
 {
-    PDC_LOG(("in_wchstr() - called\n"));
+    PDC_LOG("in_wchstr() - called\n");
 
     return win_wchnstr(stdscr, wch, stdscr->_maxx - stdscr->_curx);
 }
 
 int win_wchstr(WINDOW *win, cchar_t *wch)
 {
-    PDC_LOG(("win_wchstr() - called\n"));
+    PDC_LOG("win_wchstr() - called\n");
 
     return win_wchnstr(win, wch, win->_maxx - win->_curx);
 }
 
 int mvin_wchstr(int y, int x, cchar_t *wch)
 {
-    PDC_LOG(("mvin_wchstr() - called: y %d x %d\n", y, x));
+    PDC_LOG("mvin_wchstr() - called: y %d x %d\n", y, x);
 
     if (move(y, x) == ERR)
         return ERR;
@@ -179,7 +179,7 @@ int mvin_wchstr(int y, int x, cchar_t *wch)
 
 int mvwin_wchstr(WINDOW *win, int y, int x, cchar_t *wch)
 {
-    PDC_LOG(("mvwin_wchstr() - called:\n"));
+    PDC_LOG("mvwin_wchstr() - called:\n");
 
     if (wmove(win, y, x) == ERR)
         return ERR;
@@ -189,14 +189,14 @@ int mvwin_wchstr(WINDOW *win, int y, int x, cchar_t *wch)
 
 int in_wchnstr(cchar_t *wch, int n)
 {
-    PDC_LOG(("in_wchnstr() - called\n"));
+    PDC_LOG("in_wchnstr() - called\n");
 
     return win_wchnstr(stdscr, wch, n);
 }
 
 int mvin_wchnstr(int y, int x, cchar_t *wch, int n)
 {
-    PDC_LOG(("mvin_wchnstr() - called: y %d x %d n %d\n", y, x, n));
+    PDC_LOG("mvin_wchnstr() - called: y %d x %d n %d\n", y, x, n);
 
     if (move(y, x) == ERR)
         return ERR;
@@ -206,7 +206,7 @@ int mvin_wchnstr(int y, int x, cchar_t *wch, int n)
 
 int mvwin_wchnstr(WINDOW *win, int y, int x, cchar_t *wch, int n)
 {
-    PDC_LOG(("mvwinchnstr() - called: y %d x %d n %d \n", y, x, n));
+    PDC_LOG("mvwinchnstr() - called: y %d x %d n %d \n", y, x, n);
 
     if (wmove(win, y, x) == ERR)
         return ERR;

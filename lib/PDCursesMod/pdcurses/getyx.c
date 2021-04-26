@@ -1,6 +1,6 @@
 /* PDCurses */
 
-#include <curspriv.h>
+#include "../curspriv.h"
 #include <assert.h>
 
 /*man-start**************************************************************
@@ -75,7 +75,7 @@ getyx
 
 int getbegy(WINDOW *win)
 {
-    PDC_LOG(("getbegy() - called\n"));
+    PDC_LOG("getbegy() - called\n");
 
     assert( win);
     return win ? win->_begy : ERR;
@@ -83,7 +83,7 @@ int getbegy(WINDOW *win)
 
 int getbegx(WINDOW *win)
 {
-    PDC_LOG(("getbegx() - called\n"));
+    PDC_LOG("getbegx() - called\n");
 
     assert( win);
     return win ? win->_begx : ERR;
@@ -91,7 +91,7 @@ int getbegx(WINDOW *win)
 
 int getcury(WINDOW *win)
 {
-    PDC_LOG(("getcury() - called\n"));
+    PDC_LOG("getcury() - called\n");
 
     assert( win);
     return win ? win->_cury : ERR;
@@ -99,7 +99,7 @@ int getcury(WINDOW *win)
 
 int getcurx(WINDOW *win)
 {
-    PDC_LOG(("getcurx() - called\n"));
+    PDC_LOG("getcurx() - called\n");
 
     assert( win);
     return win ? win->_curx : ERR;
@@ -107,7 +107,7 @@ int getcurx(WINDOW *win)
 
 int getpary(WINDOW *win)
 {
-    PDC_LOG(("getpary() - called\n"));
+    PDC_LOG("getpary() - called\n");
 
     assert( win);
     return win ? win->_pary : ERR;
@@ -115,7 +115,7 @@ int getpary(WINDOW *win)
 
 int getparx(WINDOW *win)
 {
-    PDC_LOG(("getparx() - called\n"));
+    PDC_LOG("getparx() - called\n");
 
     assert( win);
     return win ? win->_parx : ERR;
@@ -123,7 +123,7 @@ int getparx(WINDOW *win)
 
 int getmaxy(WINDOW *win)
 {
-    PDC_LOG(("getmaxy() - called\n"));
+    PDC_LOG("getmaxy() - called\n");
 
     assert( win);
     return win ? win->_maxy : ERR;
@@ -131,7 +131,7 @@ int getmaxy(WINDOW *win)
 
 int getmaxx(WINDOW *win)
 {
-    PDC_LOG(("getmaxx() - called\n"));
+    PDC_LOG("getmaxx() - called\n");
 
     assert( win);
     return win ? win->_maxx : ERR;
@@ -139,7 +139,7 @@ int getmaxx(WINDOW *win)
 
 void setsyx(int y, int x)
 {
-    PDC_LOG(("setsyx() - called\n"));
+    PDC_LOG("setsyx() - called\n");
 
     if (curscr)
     {

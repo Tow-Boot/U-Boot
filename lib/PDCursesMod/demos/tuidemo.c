@@ -14,8 +14,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <locale.h>
 #include "tui.h"
+#ifdef __U_BOOT__
+#include <command.h>
+#include <linux/compat.h>
+#include <vsprintf.h>
+#else
+#include <locale.h>
+#endif
 
 /* change this if source at other location */
 
@@ -72,6 +78,7 @@ char *getfname(char *desc, char *fname, int field)
 
 void showfile(char *fname)
 {
+#ifndef __U_BOOT__
     int i, bh = bodylen();
     FILE *fp;
     char buf[MAXSTRLEN];
@@ -109,6 +116,7 @@ void showfile(char *fname)
         sprintf(buf, "ERROR: file '%s' not found", fname);
         errormsg(buf);
     }
+#endif
 }
 
 /***************************** forward declarations ***********************/
@@ -218,11 +226,16 @@ void subsub(void)
 
 /***************************** start main menu  ***************************/
 
-int main( void)
-{
+#ifndef __U_BOOT__
+int main(void) {
     setlocale(LC_ALL, "");
+#else
+static int do_demo_tui(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[]) {
+#endif
 
     startmenu(MainMenu, "TUI - 'textual user interface' demonstration program");
 
     return 0;
 }
+
+U_BOOT_CMD(demo_tui, 1, 0, do_demo_tui, "PDCurses TUI demo...", "demo_tui")

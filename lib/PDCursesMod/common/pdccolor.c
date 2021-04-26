@@ -21,7 +21,7 @@ rationale of how this works.    */
    #define PACK_RGB( red, green, blue) ((red) | ((green)<<8) | ((PACKED_RGB)(blue) << 16))
 #endif
 
-#include <curspriv.h>
+#include "../curspriv.h"
 #include "pdccolor.h"
 
 int PDC_blink_state = 0;

@@ -1,6 +1,6 @@
 /* PDCurses */
 
-#include <curspriv.h>
+#include "../curspriv.h"
 #include <assert.h>
 
 /*man-start**************************************************************
@@ -178,14 +178,14 @@ int _copy_overlap(const WINDOW *src_w, WINDOW *dst_w, bool overlay)
 
 int overlay(const WINDOW *src_w, WINDOW *dst_w)
 {
-    PDC_LOG(("overlay() - called\n"));
+    PDC_LOG("overlay() - called\n");
 
     return _copy_overlap(src_w, dst_w, TRUE);
 }
 
 int overwrite(const WINDOW *src_w, WINDOW *dst_w)
 {
-    PDC_LOG(("overwrite() - called\n"));
+    PDC_LOG("overwrite() - called\n");
 
     return _copy_overlap(src_w, dst_w, FALSE);
 }
@@ -197,7 +197,7 @@ int copywin(const WINDOW *src_w, WINDOW *dst_w, int src_tr, int src_tc,
     int src_rows, src_cols, dst_rows, dst_cols;
     int min_rows, min_cols;
 
-    PDC_LOG(("copywin() - called\n"));
+    PDC_LOG("copywin() - called\n");
 
     assert( src_w);
     assert( dst_w);

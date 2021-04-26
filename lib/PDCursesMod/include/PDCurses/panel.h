@@ -7,7 +7,7 @@
 #ifndef __PDCURSES_PANEL_H__
 #define __PDCURSES_PANEL_H__ 1
 
-#include <curses.h>
+#include <PDCurses/curses.h>
 
 #if defined(__cplusplus) || defined(__cplusplus__) || defined(__CPLUSPLUS)
 extern "C"

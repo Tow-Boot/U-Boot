@@ -1,6 +1,6 @@
 /* PDCurses */
 
-#include <curspriv.h>
+#include "../curspriv.h"
 #include <assert.h>
 
 /*man-start**************************************************************
@@ -86,7 +86,7 @@ int wgetnstr(WINDOW *win, char *str, int n)
     char *p;
     bool stop, oldecho, oldcbreak, oldnodelay;
 
-    PDC_LOG(("wgetnstr() - called\n"));
+    PDC_LOG("wgetnstr() - called\n");
 
     assert( win);
     assert( str);
@@ -220,21 +220,21 @@ int wgetnstr(WINDOW *win, char *str, int n)
 
 int getstr(char *str)
 {
-    PDC_LOG(("getstr() - called\n"));
+    PDC_LOG("getstr() - called\n");
 
     return wgetnstr(stdscr, str, MAXLINE);
 }
 
 int wgetstr(WINDOW *win, char *str)
 {
-    PDC_LOG(("wgetstr() - called\n"));
+    PDC_LOG("wgetstr() - called\n");
 
     return wgetnstr(win, str, MAXLINE);
 }
 
 int mvgetstr(int y, int x, char *str)
 {
-    PDC_LOG(("mvgetstr() - called\n"));
+    PDC_LOG("mvgetstr() - called\n");
 
     if (move(y, x) == ERR)
         return ERR;
@@ -244,7 +244,7 @@ int mvgetstr(int y, int x, char *str)
 
 int mvwgetstr(WINDOW *win, int y, int x, char *str)
 {
-    PDC_LOG(("mvwgetstr() - called\n"));
+    PDC_LOG("mvwgetstr() - called\n");
 
     if (wmove(win, y, x) == ERR)
         return ERR;
@@ -254,14 +254,14 @@ int mvwgetstr(WINDOW *win, int y, int x, char *str)
 
 int getnstr(char *str, int n)
 {
-    PDC_LOG(("getnstr() - called\n"));
+    PDC_LOG("getnstr() - called\n");
 
     return wgetnstr(stdscr, str, n);
 }
 
 int mvgetnstr(int y, int x, char *str, int n)
 {
-    PDC_LOG(("mvgetnstr() - called\n"));
+    PDC_LOG("mvgetnstr() - called\n");
 
     if (move(y, x) == ERR)
         return ERR;
@@ -271,7 +271,7 @@ int mvgetnstr(int y, int x, char *str, int n)
 
 int mvwgetnstr(WINDOW *win, int y, int x, char *str, int n)
 {
-    PDC_LOG(("mvwgetnstr() - called\n"));
+    PDC_LOG("mvwgetnstr() - called\n");
 
     if (wmove(win, y, x) == ERR)
         return ERR;
@@ -286,7 +286,7 @@ int wgetn_wstr(WINDOW *win, wint_t *wstr, int n)
     wint_t *p;
     bool stop, oldecho, oldcbreak, oldnodelay;
 
-    PDC_LOG(("wgetn_wstr() - called\n"));
+    PDC_LOG("wgetn_wstr() - called\n");
 
     assert( win);
     assert( wstr);
@@ -419,21 +419,21 @@ int wgetn_wstr(WINDOW *win, wint_t *wstr, int n)
 
 int get_wstr(wint_t *wstr)
 {
-    PDC_LOG(("get_wstr() - called\n"));
+    PDC_LOG("get_wstr() - called\n");
 
     return wgetn_wstr(stdscr, wstr, MAXLINE);
 }
 
 int wget_wstr(WINDOW *win, wint_t *wstr)
 {
-    PDC_LOG(("wget_wstr() - called\n"));
+    PDC_LOG("wget_wstr() - called\n");
 
     return wgetn_wstr(win, wstr, MAXLINE);
 }
 
 int mvget_wstr(int y, int x, wint_t *wstr)
 {
-    PDC_LOG(("mvget_wstr() - called\n"));
+    PDC_LOG("mvget_wstr() - called\n");
 
     if (move(y, x) == ERR)
         return ERR;
@@ -443,7 +443,7 @@ int mvget_wstr(int y, int x, wint_t *wstr)
 
 int mvwget_wstr(WINDOW *win, int y, int x, wint_t *wstr)
 {
-    PDC_LOG(("mvwget_wstr() - called\n"));
+    PDC_LOG("mvwget_wstr() - called\n");
 
     if (wmove(win, y, x) == ERR)
         return ERR;
@@ -453,14 +453,14 @@ int mvwget_wstr(WINDOW *win, int y, int x, wint_t *wstr)
 
 int getn_wstr(wint_t *wstr, int n)
 {
-    PDC_LOG(("getn_wstr() - called\n"));
+    PDC_LOG("getn_wstr() - called\n");
 
     return wgetn_wstr(stdscr, wstr, n);
 }
 
 int mvgetn_wstr(int y, int x, wint_t *wstr, int n)
 {
-    PDC_LOG(("mvgetn_wstr() - called\n"));
+    PDC_LOG("mvgetn_wstr() - called\n");
 
     if (move(y, x) == ERR)
         return ERR;
@@ -470,7 +470,7 @@ int mvgetn_wstr(int y, int x, wint_t *wstr, int n)
 
 int mvwgetn_wstr(WINDOW *win, int y, int x, wint_t *wstr, int n)
 {
-    PDC_LOG(("mvwgetn_wstr() - called\n"));
+    PDC_LOG("mvwgetn_wstr() - called\n");
 
     if (wmove(win, y, x) == ERR)
         return ERR;

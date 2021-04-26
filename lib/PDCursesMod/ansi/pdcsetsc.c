@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <curspriv.h>
+#include "../curspriv.h"
 #include "pdcansi.h"
 
 /*man-start**************************************************************
@@ -54,7 +54,7 @@ int PDC_curs_set( int visibility)
 {
     int ret_vis;
 
-    PDC_LOG(("PDC_curs_set() - called: visibility=%d\n", visibility));
+    PDC_LOG("PDC_curs_set() - called: visibility=%d\n", visibility);
 
     ret_vis = SP->visibility;
 
@@ -95,5 +95,5 @@ int PDC_set_bold(bool boldon)
 void PDC_set_title( const char *title)
 {
     (void)title;
-    PDC_LOG(("PDC_set_title() - called:<%s>\n", title));
+    PDC_LOG("PDC_set_title() - called:<%s>\n", title);
 }

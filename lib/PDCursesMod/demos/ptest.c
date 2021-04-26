@@ -1,5 +1,5 @@
-#include <curses.h>
-#include <panel.h>
+#include <PDCurses/curses.h>
+#include <PDCurses/panel.h>
 #include <stdlib.h>
 
 PANEL *p1, *p2, *p3, *p4, *p5;

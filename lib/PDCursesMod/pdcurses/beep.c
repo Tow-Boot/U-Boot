@@ -1,6 +1,6 @@
 /* PDCurses */
 
-#include <curspriv.h>
+#include "../curspriv.h"
 #include <assert.h>
 
 /*man-start**************************************************************
@@ -35,7 +35,7 @@ beep
 
 int beep(void)
 {
-    PDC_LOG(("beep() - called\n"));
+    PDC_LOG("beep() - called\n");
 
     assert( SP);
     if (!SP)
@@ -53,7 +53,7 @@ int flash(void)
 {
     int z, y, x;
 
-    PDC_LOG(("flash() - called\n"));
+    PDC_LOG("flash() - called\n");
 
     assert( curscr);
     if (!curscr)
