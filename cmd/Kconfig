@@ -2566,3 +2566,5 @@ config MMC_SPEED_MODE_SET
 	  include/mmc.h. A speed mode can be set only if it has already
 	  been enabled in the device tree.
 endmenu
+
+source cmd/tow-boot/Kconfig
