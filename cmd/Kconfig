@@ -2849,3 +2849,5 @@ config CMD_MESON
 	help
 	  Enable useful commands for the Meson Soc family developed by Amlogic Inc.
 endmenu
+
+source cmd/tow-boot/Kconfig
