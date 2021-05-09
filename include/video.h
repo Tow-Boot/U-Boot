@@ -180,6 +180,13 @@ int video_sync(struct udevice *vid, bool force);
 void video_sync_all(void);
 
 /**
+ * video_sync_dirty() - Sync all devices' frame buffers when dirty
+ *
+ * This calls video_sync_all() if needed.
+ */
+void video_sync_dirty(void);
+
+/**
  * video_bmp_display() - Display a BMP file
  *
  * @dev:	Device to display the bitmap on
