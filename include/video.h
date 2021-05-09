@@ -235,6 +235,12 @@ void video_sync_all(void);
  */
 void video_bmp_get_info(void *bmp_image, ulong *widthp, ulong *heightp,
 			uint *bpixp);
+/**
+ * video_sync_dirty() - Sync all devices' frame buffers when dirty
+ *
+ * This calls video_sync_all() if needed.
+ */
+void video_sync_dirty(void);
 
 /**
  * video_bmp_display() - Display a BMP file
