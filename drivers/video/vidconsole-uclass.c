@@ -116,7 +116,7 @@ static void vidconsole_newline(struct udevice *dev)
 	}
 	priv->last_ch = 0;
 
-	ret = video_sync(dev->parent, false);
+	ret = video_sync(dev->parent, true);
 	if (ret) {
 #ifdef DEBUG
 		console_puts_select_stderr(true, "[vc err: video_sync]");
@@ -361,7 +361,7 @@ static void vidconsole_escape_char(struct udevice *dev, char ch)
 			int ret;
 
 			video_clear(dev->parent);
-			ret = video_sync(dev->parent, false);
+			ret = video_sync(dev->parent, true);
 			if (ret) {
 #ifdef DEBUG
 				console_puts_select_stderr(true, "[vc err: video_sync]");
