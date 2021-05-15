@@ -511,7 +511,11 @@ void autoboot_command(const char *s)
 
 	if (IS_ENABLED(CONFIG_AUTOBOOT_USE_MENUKEY)){
 		s = env_get("menucmd");
-		if (s)
+		if (s) {
+			int prev;
+			prev = disable_ctrlc(1); /* disable Ctrl-C checking */
 			run_command_list(s, -1, 0);
+			disable_ctrlc(prev);	/* restore Ctrl-C checking */
+		}
 	}
 }
