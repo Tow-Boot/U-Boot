@@ -379,11 +379,13 @@ static int abortboot_single_key(int bootdelay)
 	 * Check if key already pressed
 	 */
 	if (tstc()) {	/* we got a key press	*/
-		getchar();	/* consume input	*/
-		puts(ANSI_CLEAR_LINE);
-		printf(ANSI_CURSOR_COLUMN, 1);
-		printf(CONFIG_AUTOBOOT_PROMPT, 0);
-		abort = 1;	/* don't auto boot	*/
+		menukey = getchar();
+		if (!IS_ENABLED(CONFIG_AUTOBOOT_USE_MENUKEY) || menukey == AUTOBOOT_MENUKEY){
+			puts(ANSI_CLEAR_LINE);
+			printf(ANSI_CURSOR_COLUMN, 1);
+			printf(CONFIG_AUTOBOOT_PROMPT, 0);
+			abort = 1;	/* don't auto boot	*/
+		}
 	}
 
 	while ((bootdelay > 0) && (!abort)) {
@@ -392,14 +394,12 @@ static int abortboot_single_key(int bootdelay)
 		ts = get_timer(0);
 		do {
 			if (tstc()) {	/* we got a key press	*/
-				int key;
-
-				abort  = 1;	/* don't auto boot	*/
-				bootdelay = 0;	/* no more delay	*/
-				key = getchar();/* consume input	*/
-				if (IS_ENABLED(CONFIG_AUTOBOOT_USE_MENUKEY))
-					menukey = key;
-				break;
+				menukey = getchar();
+				if (!IS_ENABLED(CONFIG_AUTOBOOT_USE_MENUKEY) || menukey == AUTOBOOT_MENUKEY){
+					abort  = 1;	/* don't auto boot	*/
+					bootdelay = 0;	/* no more delay	*/
+					break;
+				}
 			}
 			udelay(10000);
 		} while (!abort && get_timer(ts) < 1000);
@@ -509,8 +509,7 @@ void autoboot_command(const char *s)
 			disable_ctrlc(prev);	/* restore Ctrl-C checking */
 	}
 
-	if (IS_ENABLED(CONFIG_AUTOBOOT_USE_MENUKEY) &&
-	    menukey == AUTOBOOT_MENUKEY) {
+	if (IS_ENABLED(CONFIG_AUTOBOOT_USE_MENUKEY)){
 		s = env_get("menucmd");
 		if (s)
 			run_command_list(s, -1, 0);
