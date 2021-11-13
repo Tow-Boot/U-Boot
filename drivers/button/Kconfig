@@ -9,6 +9,13 @@ config BUTTON
 	  can provide access to board-specific buttons. Use of the device tree
 	  for configuration is encouraged.
 
+config BUTTON_SUN4I_LRADC
+	bool "Allwinner LRADC button driver"
+	depends on BUTTON
+	help
+	  Specific for Allwinner LRADC.
+	  (WIP)
+
 config BUTTON_ADC
 	bool "Button adc"
 	depends on BUTTON
