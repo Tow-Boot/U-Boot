@@ -1,0 +1,21 @@
+menu "Vibrator Feedback Support"
+
+config VIBRATOR
+	bool "Enable VIBRATOR support"
+	depends on DM
+	help
+	  Many boards have VIBRATORs which can be used to signal status or alerts.
+	  U-Boot provides a uclass API to implement this feature. VIBRATOR drivers
+	  can provide access to board-specific VIBRATORs. Use of the device tree
+	  for configuration is encouraged.
+
+config SPL_VIBRATOR
+	bool "Enable VIBRATOR support in SPL"
+	depends on SPL && SPL_DM
+	help
+	  The VIBRATOR subsystem adds a small amount of overhead to the image.
+	  If this is acceptable and you have a need to use VIBRATORs in SPL,
+	  enable this option. You will need to enable device tree in SPL
+	  for this to work.
+
+endmenu
