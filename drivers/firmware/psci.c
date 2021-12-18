@@ -210,6 +210,7 @@ void psci_sys_poweroff(void)
 	invoke_psci_fn(PSCI_0_2_FN_SYSTEM_OFF, 0, 0, 0);
 }
 
+#ifndef CONFIG_PMIC_RK8XX // *barfs* (workaround for lack of handling rockchip,system-power-controller)
 #if IS_ENABLED(CONFIG_CMD_POWEROFF) && !IS_ENABLED(CONFIG_SYSRESET_CMD_POWEROFF)
 int do_poweroff(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])
 {
@@ -225,6 +226,7 @@ int do_poweroff(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])
 	log_err("Power off not supported on this platform\n");
 	return CMD_RET_FAILURE;
 }
+#endif
 #endif
 
 static const struct udevice_id psci_of_match[] = {
