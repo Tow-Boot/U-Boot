@@ -70,21 +70,10 @@ __weak int rockchip_dnl_key_pressed(void)
 		return false;
 }
 
-void rockchip_dnl_mode_check(void)
-{
-	if (rockchip_dnl_key_pressed()) {
-		printf("download key pressed, entering download mode...");
-		set_back_to_bootrom_dnl_flag();
-		do_reset(NULL, 0, 0, NULL);
-	}
-}
-
 int setup_boot_mode(void)
 {
 	void *reg = (void *)CONFIG_ROCKCHIP_BOOT_MODE_REG;
 	int boot_mode = readl(reg);
-
-	rockchip_dnl_mode_check();
 
 	boot_mode = readl(reg);
 	debug("%s: boot mode 0x%08x\n", __func__, boot_mode);
