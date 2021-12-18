@@ -10,6 +10,7 @@
 #include <log.h>
 #include <power/rk8xx_pmic.h>
 #include <power/pmic.h>
+#include <linux/delay.h>
 
 static struct reg_data rk817_init_reg[] = {
 /* enable the under-voltage protection,
@@ -235,3 +236,29 @@ U_BOOT_DRIVER(rockchip_rk805) = {
 };
 
 DM_DRIVER_ALIAS(rockchip_rk805, rockchip_rk808)
+
+#ifdef CONFIG_CMD_POWEROFF
+// TODO: implement handling of: rockchip,system-power-controller
+int do_poweroff(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])
+{
+	struct udevice *pmic;
+	int ret;
+
+	ret = uclass_get_device_by_driver(UCLASS_PMIC, DM_DRIVER_GET(rockchip_rk805), &pmic);
+
+	if (ret != 0) {
+		printf("Failure in `do_poweroff` getting PMIC; ret=%d\n", ret);
+		return ret;
+	}
+
+	/* wait uart flush before shutdown */
+	mdelay(5);
+
+	/* PMIC shutdown */
+	pmic_shutdown(pmic);
+
+	panic("Cpu should never reach here, shutdown failed !");
+
+	return 0;
+}
+#endif
