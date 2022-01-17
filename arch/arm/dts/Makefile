@@ -180,6 +180,7 @@ dtb-$(CONFIG_ARCH_MESON) += \
 	meson-g12b-odroid-n2.dtb \
 	meson-g12b-odroid-n2-plus.dtb \
 	meson-g12b-a311d-khadas-vim3.dtb \
+	meson-g12b-radxa-zero2.dtb \
 	meson-sm1-khadas-vim3l.dtb \
 	meson-sm1-odroid-c4.dtb \
 	meson-sm1-sei610.dtb
