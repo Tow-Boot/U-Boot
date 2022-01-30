@@ -1214,6 +1214,16 @@
 	status = "okay";
 };
 
+&spi1 {
+	status = "okay";
+
+	spiflash: flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <10000000>;
+	};
+};
+
 &tcphy0 {
 	extcon = <&typec_extcon_bridge>;
 	status = "okay";
