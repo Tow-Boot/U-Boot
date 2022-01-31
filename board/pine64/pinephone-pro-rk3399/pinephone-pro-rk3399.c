@@ -33,9 +33,6 @@ static void setup_iodomain(void)
 
 	/* BT565 is in 1.8v domain */
 	rk_setreg(&grf->io_vsel, 1 << GRF_IO_VSEL_BT565_SHIFT);
-
-	/* Set GPIO1 1.8v/3.0v source select to PMU1830_VOL */
-	rk_setreg(&pmugrf->soc_con0, 1 << PMUGRF_CON0_VSEL_SHIFT);
 }
 
 int misc_init_r(void)
