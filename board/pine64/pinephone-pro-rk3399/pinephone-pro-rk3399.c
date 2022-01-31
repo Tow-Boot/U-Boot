@@ -57,9 +57,6 @@ static void setup_iodomain(void)
 	/* BT565 is in 1.8v domain */
 	rk_setreg(&grf->io_vsel,
 		  GRF_IO_VSEL_BT565_GPIO2AB | GRF_IO_VSEL_AUDIO_GPIO3D4A);
-
-	/* Set GPIO1 1.8v/3.0v source select to PMU1830_VOL */
-	rk_setreg(&pmugrf->soc_con0, 1 << PMUGRF_CON0_VSEL_SHIFT);
 }
 
 int misc_init_r(void)
