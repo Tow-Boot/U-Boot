@@ -18,6 +18,26 @@
 	config {
 		u-boot,spl-payload-offset = <0x60000>; /* @ 384KB */
 	};
+	smbios {
+		compatible = "u-boot,sysinfo-smbios";
+		
+		smbios {
+			system {
+				manufacturer = "PINE64";
+				product = "PinePhone Pro";
+				family = "PinePhone";
+			};
+
+			baseboard {
+				manufacturer = "PINE64";
+				product = "PinePhone Pro";
+			};
+
+			chassis {
+				manufacturer = "PINE64";
+			};
+		};
+	};
 };
 
 &i2c0 {
