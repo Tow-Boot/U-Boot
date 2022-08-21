@@ -541,6 +541,7 @@ int board_mmc_init(struct bd_info *bis)
 	return 0;
 }
 
+#ifdef CONFIG_SYS_MMC_ENV_DEV
 #if CONFIG_MMC_SUNXI_SLOT_EXTRA != -1
 int mmc_get_env_dev(void)
 {
@@ -553,6 +554,7 @@ int mmc_get_env_dev(void)
 		return CONFIG_SYS_MMC_ENV_DEV;
 	}
 }
+#endif
 #endif
 #endif /* CONFIG_MMC */
 
