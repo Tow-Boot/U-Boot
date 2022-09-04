@@ -14,6 +14,7 @@
 #include <sysinfo.h>
 #include <tables_csum.h>
 #include <version.h>
+#include <version_string.h>
 #ifdef CONFIG_CPU
 #include <cpu.h>
 #include <dm/uclass-internal.h>
@@ -228,11 +229,10 @@ static int smbios_write_type0(ulong *current, int handle,
 	memset(t, 0, sizeof(struct smbios_type0));
 	fill_smbios_header(t, SMBIOS_BIOS_INFORMATION, len, handle);
 	smbios_set_eos(ctx, t->eos);
-	t->vendor = smbios_add_string(ctx, "U-Boot");
+	t->vendor = smbios_add_string(ctx, "Tow-Boot");
 
-	t->bios_ver = smbios_add_prop(ctx, "version");
-	if (!t->bios_ver)
-		t->bios_ver = smbios_add_string(ctx, PLAIN_VERSION);
+	/* Hardcode full version string */
+	t->bios_ver = smbios_add_string(ctx, version_string);
 	if (t->bios_ver)
 		gd->smbios_version = ctx->last_str;
 	log_debug("smbios_version = %p: '%s'\n", gd->smbios_version,
