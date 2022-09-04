@@ -88,6 +88,31 @@ struct smbios_write_method {
 };
 
 /**
+ * smbios_enclosure_from_string() - returns smbios byte value for chassis type string.
+ *
+ * The chassis type string values are the recommended root node properties as
+ * defined in the device tree specification 3.2 Root node.
+ *
+ * The byte values are the closest equivalent values as defined in the SMBIOS
+ * specification, 7.4.1 System Enclosure or Chassis Types.
+ */
+static int smbios_enclosure_from_string(char* str)
+{
+	if (!strncmp(str, "desktop", 7)) return SMBIOS_ENCLOSURE_DESKTOP;
+	if (!strncmp(str, "laptop", 6)) return SMBIOS_ENCLOSURE_LAPTOP;
+	if (!strncmp(str, "convertible", 11)) return SMBIOS_ENCLOSURE_CONVERTIBLE;
+	if (!strncmp(str, "server", 6)) return SMBIOS_ENCLOSURE_MAIN_SERVER_CHASSIS;
+	if (!strncmp(str, "tablet", 6)) return SMBIOS_ENCLOSURE_TABLET;
+	/* Hand Held is the closest there is */
+	if (!strncmp(str, "handset", 7)) return SMBIOS_ENCLOSURE_HAND_HELD;
+	/* SMBIOS does not define watch */
+	if (!strncmp(str, "watch", 5)) return SMBIOS_ENCLOSURE_OTHER;
+	if (!strncmp(str, "embedded", 8)) return SMBIOS_ENCLOSURE_EMBEDDED_PC;
+	
+	return SMBIOS_ENCLOSURE_UNKNOWN;
+}
+
+/**
  * smbios_add_string() - add a string to the string area
  *
  * This adds a string to the string area which is appended directly after
@@ -346,7 +371,18 @@ static int smbios_write_type3(ulong *current, int handle,
 	t->manufacturer = smbios_add_prop(ctx, "manufacturer");
 	if (!t->manufacturer)
 		t->manufacturer = smbios_add_string(ctx, "Unknown");
-	t->chassis_type = SMBIOS_ENCLOSURE_DESKTOP;
+	t->chassis_type = SMBIOS_ENCLOSURE_UNKNOWN;
+	if (IS_ENABLED(CONFIG_OF_CONTROL)) {
+		ofnode node;
+		node = ofnode_path("/");
+		const char *chassis_type;
+
+		if (ofnode_valid(node)) {
+			chassis_type = ofnode_read_string(node, "chassis-type");
+			if (chassis_type)
+				t->chassis_type = smbios_enclosure_from_string(chassis_type);
+		}
+	}
 	t->bootup_state = SMBIOS_STATE_SAFE;
 	t->power_supply_state = SMBIOS_STATE_SAFE;
 	t->thermal_state = SMBIOS_STATE_SAFE;
