@@ -168,6 +168,11 @@ static int rk8xx_shutdown(struct udevice *dev)
 	return 0;
 }
 
+int rk818_wait_battery(struct udevice *dev)
+{
+	return 0;
+}
+
 #if CONFIG_IS_ENABLED(PMIC_CHILDREN)
 static int rk8xx_bind(struct udevice *dev)
 {
