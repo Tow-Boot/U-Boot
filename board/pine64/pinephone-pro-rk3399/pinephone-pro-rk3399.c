@@ -16,6 +16,7 @@
 #include <asm/arch-rockchip/hardware.h>
 #include <asm/arch-rockchip/misc.h>
 #include <linux/delay.h>
+#include <power/rk8xx_pmic.h>
 
 #define GRF_IO_VSEL_BT565_SHIFT 0
 #define PMUGRF_CON0_VSEL_SHIFT 8
@@ -84,3 +85,42 @@ void led_setup(void)
 }
 
 #endif
+
+static void pinephone_pro_init(void)
+{
+	struct udevice *pmic;
+	int ret;
+
+	printf("Initializing Pinephone Pro charger\n");
+
+	ret = uclass_first_device_err(UCLASS_PMIC, &pmic);
+	if (ret) {
+		printf("ERROR: PMIC not found! (%d)\n", ret);
+		return;
+	}
+
+	/*
+	 * Raise input current limit to 1.5A, which is a standard CDC charger
+	 * allowance.
+	 */
+	ret = rk818_spl_configure_usb_input_current(pmic, 1500);
+	if (ret)
+		printf("ERROR: Input current limit setup failed!\n");
+
+	/*
+	 * Close charger when USB lower then 3.26V
+	 */
+	rk818_spl_configure_usb_chrg_shutdown(pmic, 3260000);
+
+	/*
+	 * Check battery voltage and wait until it's in bootable state.
+	 */
+	//TODO:
+	rk818_wait_battery(pmic);
+}
+
+void pmic_setup(void)
+{
+	if (of_machine_is_compatible("pine64,pinephone-pro"))
+		pinephone_pro_init();
+}
