@@ -129,6 +129,11 @@ static int rk8xx_read(struct udevice *dev, uint reg, uint8_t *buff, int len)
 	return 0;
 }
 
+int rk818_wait_battery(struct udevice *dev)
+{
+	return 0;
+}
+
 #if CONFIG_IS_ENABLED(PMIC_CHILDREN)
 static int rk8xx_bind(struct udevice *dev)
 {
