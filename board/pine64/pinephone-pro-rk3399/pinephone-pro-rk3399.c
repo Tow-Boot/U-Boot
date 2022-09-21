@@ -57,6 +57,16 @@ int misc_init_r(void)
 	return ret;
 }
 
+void setup_gpio_pins(void)
+{
+	struct rockchip_gpio_regs * const gpio4 = (void *)GPIO4_BASE;
+
+	/* BROM leaves GPIO4_PD3 enabled as output for some unknown reason,
+	 * and this breaks kernel expectations. (STK3311 probe on PPP).
+	 * Set GPIO4_PD3 to input direction. */
+	spl_gpio_input(gpio4, GPIO(BANK_D, 3));
+}
+
 void led_setup(void)
 {
 	struct rockchip_gpio_regs * const gpio3 = (void *)GPIO3_BASE;
