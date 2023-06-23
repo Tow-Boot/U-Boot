@@ -44,3 +44,7 @@ Tow-Boot that are unlikely to be desirable by upstream.
 Board-specific feature branches are prefixed `board-$identifier[-$feature]`.
 The feature name may be missing if the changes are trivial and require only
 a single branch.
+
+External patches brought into the tree should be prefixed `external-`, with
+the commits including an `Origin: ` line detailing the exact source used
+initially.
