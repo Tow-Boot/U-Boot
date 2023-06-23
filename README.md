@@ -28,7 +28,7 @@ where `yy.mm` follows the U-Boot naming scheme.
 A final generic integration branch merging other branches is named
 `tow-boot/20yy.mm/_all`.
 
-### Feature branch name prefixes
+#### Feature branch name prefixes
 
 Other branches under the prefix name are named (lowercased, dashes) according
 to the feature.
@@ -45,6 +45,10 @@ Board-specific feature branches are prefixed `board-$identifier[-$feature]`.
 The feature name may be missing if the changes are trivial and require only
 a single branch.
 
-External patches brought into the tree should be prefixed `external-`, with
-the commits including an `Origin: ` line detailing the exact source used
-initially.
+### Commits
+
+External patches brought into the tree should include an `Origin: ` line
+detailing the exact source used initially.
+
+When rebasing, be mindful about changes from the downstream origin, and
+rebase on top of those if there are any.
