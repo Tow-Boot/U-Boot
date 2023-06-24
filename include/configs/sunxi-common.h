@@ -301,13 +301,31 @@
 #define BOOTENV_DEV_NAME_FEL(devtypeu, devtypel, instance) \
 	"fel "
 
+#ifdef CONFIG_MMC
+#define TB_BOOT_TARGET_DEVICES_MMC(func, i) func(MMC, mmc, i)
+#else
+#define TB_BOOT_TARGET_DEVICES_MMC(func, i)
+#endif
+
+#if defined(CONFIG_TOW_BOOT_PREDICTABLE_BOOT_PREFER_INTERNAL)
 #define BOOT_TARGET_DEVICES(func) \
 	func(FEL, fel, na) \
-	BOOT_TARGET_DEVICES_MMC(func) \
+	TB_BOOT_TARGET_DEVICES_MMC(func, 1) /* eMMC */ \
 	BOOT_TARGET_DEVICES_SCSI(func) \
+	TB_BOOT_TARGET_DEVICES_MMC(func, 0) /* SD */ \
 	BOOT_TARGET_DEVICES_USB(func) \
 	BOOT_TARGET_DEVICES_PXE(func) \
 	BOOT_TARGET_DEVICES_DHCP(func)
+#elif defined(CONFIG_TOW_BOOT_PREDICTABLE_BOOT_PREFER_EXTERNAL)
+#define BOOT_TARGET_DEVICES(func) \
+	func(FEL, fel, na) \
+	BOOT_TARGET_DEVICES_USB(func) \
+	TB_BOOT_TARGET_DEVICES_MMC(func, 0) /* SD */ \
+	BOOT_TARGET_DEVICES_SCSI(func) \
+	TB_BOOT_TARGET_DEVICES_MMC(func, 1) /* eMMC */ \
+	BOOT_TARGET_DEVICES_PXE(func) \
+	BOOT_TARGET_DEVICES_DHCP(func)
+#endif
 
 #ifdef CONFIG_OLD_SUNXI_KERNEL_COMPAT
 #define BOOTCMD_SUNXI_COMPAT \
