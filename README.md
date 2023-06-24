@@ -33,10 +33,6 @@ A final generic integration branch merging other branches is named
 Other branches under the prefix name are named (lowercased, dashes) according
 to the feature.
 
-Feature branch names that cannot be upstreamed as-they-are, because of the
-style of workarounds used, are prefixed `wip-`. The changes should generally
-be acceptable by upstream, once they are implemented correctly.
-
 Feature branch names that cannot be upstreamed for opinionated reasons are
 prefixed with `tb-`, meaning that they are additional customizations for
 Tow-Boot that are unlikely to be desirable by upstream.
@@ -44,6 +40,19 @@ Tow-Boot that are unlikely to be desirable by upstream.
 Board-specific feature branches are prefixed `board-$identifier[-$feature]`.
 The feature name may be missing if the changes are trivial and require only
 a single branch.
+
+Feature branch names that cannot be upstreamed as-they-are, because of the
+style of workarounds used, are prefixed `wip-`. The changes should generally
+be acceptable by upstream, once they are implemented correctly.
+
+> **NOTE**: `wip-` branches are allowed to refer to any other branches for
+> the release, when they build up on the features. The octopus merge strategy
+> used to produce the `_all` branch should handle most situation without
+> making a fuss. If it does not, it may mean the code is depending or
+> conflicting on changes from another set of branches.
+>
+> Care should be taken to prevent complex inter-dependencies when authoring
+> changes.
 
 ### Commits
 
