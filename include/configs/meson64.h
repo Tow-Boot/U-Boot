@@ -69,16 +69,29 @@
 #endif
 
 #ifndef BOOT_TARGET_DEVICES
+
+#if defined(CONFIG_TOW_BOOT_PREDICTABLE_BOOT_PREFER_INTERNAL)
 #define BOOT_TARGET_DEVICES(func) \
-	func(ROMUSB, romusb, na)  \
-	func(MMC, mmc, 0) \
-	func(MMC, mmc, 1) \
-	func(MMC, mmc, 2) \
-	BOOT_TARGET_DEVICES_USB(func) \
+	func(MMC, mmc, 2) /* eMMC */ \
 	BOOT_TARGET_NVME(func) \
 	BOOT_TARGET_SCSI(func) \
+	func(MMC, mmc, 1) /* SD */ \
+	BOOT_TARGET_DEVICES_USB(func) \
 	func(PXE, pxe, na) \
-	func(DHCP, dhcp, na)
+	func(DHCP, dhcp, na) \
+	func(ROMUSB, romusb, na)
+#elif defined(CONFIG_TOW_BOOT_PREDICTABLE_BOOT_PREFER_EXTERNAL)
+#define BOOT_TARGET_DEVICES(func) \
+	BOOT_TARGET_DEVICES_USB(func) \
+	func(MMC, mmc, 1) /* SD */ \
+	BOOT_TARGET_SCSI(func) \
+	BOOT_TARGET_NVME(func) \
+	func(MMC, mmc, 2) /* eMMC */ \
+	func(PXE, pxe, na) \
+	func(DHCP, dhcp, na) \
+	func(ROMUSB, romusb, na)
+#endif
+
 #endif
 
 #include <config_distro_bootcmd.h>
