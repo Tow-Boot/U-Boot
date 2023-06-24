@@ -1,2 +1,5 @@
 menu "Tow-Boot specific customizations"
+
+source "Tow-Boot/Kconfig.predictable_boot"
+
 endmenu
