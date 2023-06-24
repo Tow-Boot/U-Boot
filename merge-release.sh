@@ -38,7 +38,7 @@ $(branch_details)
 Including contributions from:
 $(
 	git shortlog --summary --numbered --no-merges \
-		--group=author --group=trailer:co-authored-by --group=trailer:reviewed-by \
+		--group=author --group=trailer:co-authored-by \
 		"${UBOOT_TAG}..${PREFIX}/_all" \
 		| sed -e 's/^/ - /'
 )
