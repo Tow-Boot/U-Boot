@@ -14,15 +14,6 @@
 
 #ifndef CONFIG_SPL_BUILD
 
-/* First try to boot from SD (index 1), then eMMC (index 0) */
-#if CONFIG_IS_ENABLED(CMD_MMC)
-	#define BOOT_TARGET_MMC(func) \
-		func(MMC, mmc, 1) \
-		func(MMC, mmc, 0)
-#else
-	#define BOOT_TARGET_MMC(func)
-#endif
-
 #if CONFIG_IS_ENABLED(CMD_NVME)
 	#define BOOT_TARGET_NVME(func) func(NVME, nvme, 0)
 #else
@@ -60,20 +51,47 @@
 #endif
 
 #ifdef CONFIG_ROCKCHIP_RK3399
+
+#if defined(CONFIG_TOW_BOOT_PREDICTABLE_BOOT_PREFER_INTERNAL)
 #define BOOT_TARGET_DEVICES(func) \
-	BOOT_TARGET_MMC(func) \
+	func(MMC, mmc, 0) /* eMMC */ \
 	BOOT_TARGET_NVME(func) \
 	BOOT_TARGET_SCSI(func) \
+	func(MMC, mmc, 1) /* SD */ \
 	BOOT_TARGET_USB(func) \
 	BOOT_TARGET_PXE(func) \
 	BOOT_TARGET_DHCP(func) \
 	BOOT_TARGET_SF(func)
-#else
+#elif defined(CONFIG_TOW_BOOT_PREDICTABLE_BOOT_PREFER_EXTERNAL)
 #define BOOT_TARGET_DEVICES(func) \
-	BOOT_TARGET_MMC(func) \
+	BOOT_TARGET_USB(func) \
+	func(MMC, mmc, 1) /* SD */ \
+	BOOT_TARGET_SCSI(func) \
+	BOOT_TARGET_NVME(func) \
+	func(MMC, mmc, 0) /* eMMC */ \
+	BOOT_TARGET_PXE(func) \
+	BOOT_TARGET_DHCP(func) \
+	BOOT_TARGET_SF(func)
+#endif
+
+#else /* (if CONFIG_ROCKCHIP_RK3399) */
+
+#if defined(CONFIG_TOW_BOOT_PREDICTABLE_BOOT_PREFER_INTERNAL)
+#define BOOT_TARGET_DEVICES(func) \
+	func(MMC, mmc, 0) /* eMMC */ \
+	func(MMC, mmc, 1) /* SD */ \
 	BOOT_TARGET_USB(func) \
 	BOOT_TARGET_PXE(func) \
 	BOOT_TARGET_DHCP(func)
+#elif defined(CONFIG_TOW_BOOT_PREDICTABLE_BOOT_PREFER_EXTERNAL)
+#define BOOT_TARGET_DEVICES(func) \
+	BOOT_TARGET_USB(func) \
+	func(MMC, mmc, 1) /* SD */ \
+	func(MMC, mmc, 0) /* eMMC */ \
+	BOOT_TARGET_PXE(func) \
+	BOOT_TARGET_DHCP(func)
+#endif
+
 #endif
 
 #ifdef CONFIG_ARM64
