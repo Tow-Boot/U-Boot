@@ -16,9 +16,10 @@ REMOTE="$1"; shift
 PREFIX="$1"; shift
 
 set -x
-git fetch -p "${REMOTE}"
+
+git fetch -p "$REMOTE"
 git branch -r \
-	| grep "${REMOTE}"/"${PREFIX}"/ \
+	| grep "$REMOTE"/"$PREFIX"/ \
 	| grep -v '_all' \
 	| cut -d'/' -f2- \
-	| xargs -I {} git push tow-boot :{}
+	| xargs -I {} git push "$REMOTE" :{}
