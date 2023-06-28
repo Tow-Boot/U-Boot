@@ -113,6 +113,9 @@ static ulong alloc_fb(struct udevice *dev, ulong *addrp)
 	size = alloc_fb_(plat->align, plat->size, addrp);
 	plat->base = *addrp;
 
+	/* Clear the reserved famebuffer; some data might be sticking in from warm reset. */
+	memset(plat->base, 0x00, size);
+
 	return size;
 }
 
