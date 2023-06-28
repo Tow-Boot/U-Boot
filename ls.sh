@@ -12,14 +12,6 @@ if (( $# < 1 )); then
 	exit 1
 fi
 
-RELEASE="$1"
-shift
-PREFIX="tow-boot/$RELEASE"
+RELEASE="$1"; shift
 
-branches() {
-	git branch --all --format '%(refname:lstrip=2)' --list "$PREFIX"/* \
-		| grep -v "$PREFIX/_all" \
-		| sort
-}
-
-branches
+_release_branches "tow-boot/$RELEASE" | grep -v '/_all$'

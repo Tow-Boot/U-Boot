@@ -13,9 +13,9 @@ if (( $# < 2 )); then
 fi
 
 REMOTE="$1"; shift
-TAG="$1"; shift
+PREFIX="tow-boot/$1"; shift
 
 set -x
 
 # shellcheck disable=2046
-git push --force -u "$REMOTE" $("$this"/ls.sh "$TAG") "tow-boot/$TAG/_all"
+git push --force -u "$REMOTE" $(_get_branches "$PREFIX")

@@ -17,14 +17,8 @@ shift
 PREFIX="tow-boot/$RELEASE"
 UBOOT_TAG="v${RELEASE}"
 
-branches() {
-	git branch --all --format '%(refname:lstrip=2)' --list "$PREFIX"/* \
-		| grep -v "$PREFIX/_all" \
-		| sort
-}
-
 branch_details() {
-	for branch in $(branches); do
+	for branch in $(_release_branches "$PREFIX"); do
 		printf " - %s ⇒ %s\n" \
 			"$(git rev-parse "$branch")" \
 			"$branch"
@@ -35,7 +29,7 @@ message() {
 cat <<EOF
 Integration branch for Tow-Boot ${RELEASE}
 
-This branch includes changes from the following $(branches | wc -l) branches:
+This branch includes changes from the following $(_release_branches "$PREFIX" | wc -l) branches:
 
 $(branch_details)
 
@@ -52,5 +46,5 @@ EOF
 
 git checkout -B "$PREFIX/_all" "$UBOOT_TAG"
 #shellcheck disable=SC2046
-git merge --no-ff $(branches) -m "[TBD]"
+git merge --no-ff $(_release_branches "$PREFIX") -m "[TBD]"
 git commit --amend -m "$(message)"
