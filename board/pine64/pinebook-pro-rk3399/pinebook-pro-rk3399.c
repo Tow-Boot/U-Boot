@@ -6,10 +6,12 @@
 
 #include <common.h>
 #include <dm.h>
+#include <spl_gpio.h>
 #include <syscon.h>
 #include <asm/io.h>
 #include <asm/arch-rockchip/clock.h>
 #include <asm/arch-rockchip/grf_rk3399.h>
+#include <asm/arch-rockchip/gpio.h>
 #include <asm/arch-rockchip/hardware.h>
 #include <asm/arch-rockchip/misc.h>
 #include <power/regulator.h>
@@ -36,6 +38,22 @@ int board_early_init_f(void)
 out:
 	return 0;
 }
+#else
+
+#define GPIO0_BASE	0xff720000
+
+void led_setup(void)
+{
+	struct rockchip_gpio_regs * const gpio0 = (void *)GPIO0_BASE;
+
+	// Light up the red LED
+	// <&gpio0 RK_PA2 GPIO_ACTIVE_HIGH>;
+	spl_gpio_output(gpio0, GPIO(BANK_A, 2), 1);
+	// Turn off green LED (from kept reboot state)
+	// <&gpio0 RK_PB3 GPIO_ACTIVE_HIGH>;
+	spl_gpio_output(gpio0, GPIO(BANK_B, 3), 0);
+}
+
 #endif
 
 #ifdef CONFIG_MISC_INIT_R
