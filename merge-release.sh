@@ -31,7 +31,7 @@ message() {
 cat <<EOF
 Integration branch for Tow-Boot ${RELEASE}
 
-This branch includes changes from the following branches:
+This branch includes changes from the following $(branches | wc -l) branches:
 
 $(branch_details)
 
