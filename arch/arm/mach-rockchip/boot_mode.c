@@ -22,6 +22,8 @@ int setup_boot_mode(void)
 
 #else
 
+#if !defined(CONFIG_TOW_BOOT_QUIRK_ROCKCHIP_DISABLE_DOWNLOAD_MODE)
+
 void set_back_to_bootrom_dnl_flag(void)
 {
 	writel(BOOT_BROM_DOWNLOAD, CONFIG_ROCKCHIP_BOOT_MODE_REG);
@@ -79,12 +81,16 @@ void rockchip_dnl_mode_check(void)
 	}
 }
 
+#endif /* CONFIG_TOW_BOOT_QUIRK_ROCKCHIP_DISABLE_DOWNLOAD_MODE */
+
 int setup_boot_mode(void)
 {
 	void *reg = (void *)CONFIG_ROCKCHIP_BOOT_MODE_REG;
 	int boot_mode = readl(reg);
 
+#if !defined(CONFIG_TOW_BOOT_QUIRK_ROCKCHIP_DISABLE_DOWNLOAD_MODE)
 	rockchip_dnl_mode_check();
+#endif
 
 	boot_mode = readl(reg);
 	debug("%s: boot mode 0x%08x\n", __func__, boot_mode);
