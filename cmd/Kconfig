@@ -1455,6 +1455,16 @@ config CMD_PVBLOCK
 	help
 	  Xen para-virtualized block device support
 
+config CMD_VIBRATOR
+	bool "vibrator"
+	depends on VIBRATOR
+	default y if VIBRATOR
+	help
+	  Enable the 'vibrator' command which allows for control of vibrator
+	  motors available on the board. The vibrator motors can be listed with
+	  'vibrator list' and controlled with vibrator on/off/time. Any
+	  vibrator driver can be controlled with this command.
+
 config CMD_VIRTIO
 	bool "virtio"
 	depends on VIRTIO
@@ -1912,6 +1922,12 @@ config CMD_GETTIME
 	  U-Boot started running. This shows the time in seconds and
 	  milliseconds. See also the 'bootstage' command which provides more
 	  flexibility for boot timing.
+
+config CMD_PAUSE
+	bool "pause command"
+	help
+	  Delay execution waiting for any user input.
+	  Useful to allow the user to read a failure log.
 
 config CMD_RNG
 	bool "rng command"
@@ -2566,3 +2582,5 @@ config MMC_SPEED_MODE_SET
 	  include/mmc.h. A speed mode can be set only if it has already
 	  been enabled in the device tree.
 endmenu
+
+source cmd/tow-boot/Kconfig

@@ -540,6 +540,7 @@ int board_mmc_init(struct bd_info *bis)
 	return 0;
 }
 
+#ifdef CONFIG_SYS_MMC_ENV_DEV
 #if CONFIG_MMC_SUNXI_SLOT_EXTRA != -1
 int mmc_get_env_dev(void)
 {
@@ -552,6 +553,7 @@ int mmc_get_env_dev(void)
 		return CONFIG_SYS_MMC_ENV_DEV;
 	}
 }
+#endif
 #endif
 #endif
 
@@ -578,6 +580,22 @@ void sunxi_board_init(void)
 #ifdef CONFIG_LED_STATUS
 	if (IS_ENABLED(CONFIG_SPL_DRIVERS_MISC))
 		status_led_init();
+#endif
+
+#ifdef CONFIG_PINEPHONE_LEDS
+	/* PD18:G PD19:R PD20:B */
+	gpio_request(SUNXI_GPD(18), "led:green");
+	gpio_direction_output(SUNXI_GPD(18), 0);
+	gpio_request(SUNXI_GPD(19), "led:red");
+	gpio_direction_output(SUNXI_GPD(19), 1);
+	gpio_request(SUNXI_GPD(20), "led:blue");
+	gpio_direction_output(SUNXI_GPD(20), 0);
+
+	/* PD2: vibrator */
+	gpio_request(SUNXI_GPD(2), "vibrator");
+	gpio_direction_output(SUNXI_GPD(2), 1);
+	mdelay(400); // 0.4s
+	gpio_direction_output(SUNXI_GPD(2), 0);
 #endif
 
 #ifdef CONFIG_SY8106A_POWER

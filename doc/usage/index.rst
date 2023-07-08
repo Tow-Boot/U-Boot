@@ -48,6 +48,7 @@ Shell commands
    cmd/mbr
    cmd/md
    cmd/mmc
+   cmd/pause
    cmd/pinmux
    cmd/printenv
    cmd/pstore

@@ -66,8 +66,7 @@ void board_init_f(ulong dummy)
 	 */
 	debug_uart_init();
 #ifdef CONFIG_TPL_BANNER_PRINT
-	printascii("\nU-Boot TPL " PLAIN_VERSION " (" U_BOOT_DATE " - " \
-				U_BOOT_TIME ")\n");
+	printascii("\nTow-Boot " SPL_TPL_NAME " " PLAIN_VERSION "\n");
 #endif
 #endif
 	ret = spl_early_init();

@@ -116,7 +116,7 @@ static void vidconsole_newline(struct udevice *dev)
 	}
 	priv->last_ch = 0;
 
-	ret = video_sync(dev->parent, false);
+	ret = video_sync(dev->parent, true);
 	if (ret) {
 #ifdef DEBUG
 		console_puts_select_stderr(true, "[vc err: video_sync]");
@@ -317,6 +317,18 @@ static void vidconsole_escape_char(struct udevice *dev, char ch)
 		set_cursor_position(priv, row, col);
 		break;
 	}
+	case 'G': {
+		int row, col;
+		get_cursor_position(priv, &row, &col);
+		char *s = priv->escape_buf;
+		s++;    /* [ */
+		s = parsenum(s, &col);
+		col = col-1;
+		if (col < 0)
+			col = 0;
+		set_cursor_position(priv, row, col);
+		break;
+	}
 	case 'H':
 	case 'f': {
 		int row, col;
@@ -361,7 +373,7 @@ static void vidconsole_escape_char(struct udevice *dev, char ch)
 			int ret;
 
 			video_clear(dev->parent);
-			ret = video_sync(dev->parent, false);
+			ret = video_sync(dev->parent, true);
 			if (ret) {
 #ifdef DEBUG
 				console_puts_select_stderr(true, "[vc err: video_sync]");

@@ -153,6 +153,7 @@ dtb-$(CONFIG_ROCKCHIP_RK3399) += \
 	rk3399-nanopi-r4s.dtb \
 	rk3399-orangepi.dtb \
 	rk3399-pinebook-pro.dtb \
+	rk3399-pinephone-pro.dtb \
 	rk3399-puma-haikou.dtb \
 	rk3399-roc-pc.dtb \
 	rk3399-roc-pc-mezzanine.dtb \
@@ -200,6 +201,7 @@ dtb-$(CONFIG_ARCH_MESON) += \
 	meson-g12b-gsking-x.dtb \
 	meson-g12b-odroid-n2.dtb \
 	meson-g12b-odroid-n2-plus.dtb \
+	meson-g12b-radxa-zero2.dtb \
 	meson-sm1-bananapi-m5.dtb \
 	meson-sm1-khadas-vim3l.dtb \
 	meson-sm1-odroid-c4.dtb \

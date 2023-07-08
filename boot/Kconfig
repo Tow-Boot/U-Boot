@@ -1002,8 +1002,8 @@ config AUTOBOOT_FLUSH_STDIN
 
 config AUTOBOOT_PROMPT
 	string "Autoboot stop prompt"
-	depends on AUTOBOOT_KEYED
-	default "Autoboot in %d seconds\\n"
+	default "Autoboot in %d seconds\\n" if AUTOBOOT_KEYED
+	default "Hit any key to stop autoboot: %2d \\n"
 	help
 	  This string is displayed before the boot delay selected by
 	  CONFIG_BOOTDELAY starts. If it is not defined	there is no

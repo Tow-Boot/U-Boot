@@ -177,6 +177,13 @@ static int do_usb_mass_storage(struct cmd_tbl *cmdtp, int flag,
 		goto cleanup_board;
 	}
 
+#if defined(CONFIG_USB_MUSB_GADGET) && !CONFIG_IS_ENABLED(DM_USB_GADGET)
+	// Hack for sunxi musb not being probed eagerly.
+	// Using `g_dnl_board_usb_cable_connected` ends up probing the cable.
+	// This is a workaround, and `g_dnl_register` should instead probe correctly.
+	g_dnl_board_usb_cable_connected();
+#endif
+
 	rc = g_dnl_register("usb_dnl_ums");
 	if (rc) {
 		pr_err("g_dnl_register failed\n");

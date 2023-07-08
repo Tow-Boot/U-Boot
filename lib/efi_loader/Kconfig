@@ -296,6 +296,7 @@ config EFI_PLATFORM_LANG_CODES
 config EFI_HAVE_RUNTIME_RESET
 	# bool "Reset runtime service is available"
 	bool
+	default n if ROCKCHIP_RK3399
 	default y
 	depends on ARCH_BCM283X || FSL_LAYERSCAPE || PSCI_RESET || \
 		   SANDBOX || SYSRESET_X86

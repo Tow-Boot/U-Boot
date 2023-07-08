@@ -20,6 +20,7 @@
 #ifdef CONFIG_SANDBOX
 #include <asm/state.h>
 #endif
+#include <video.h>
 
 #include <usb.h>
 
@@ -404,6 +405,11 @@ static int usb_kbd_testc(struct stdio_dev *sdev)
 	 */
 	unsigned long poll_delay = CONFIG_SYS_HZ / 50;
 
+#ifdef CONFIG_DM_VIDEO
+	// For "fast console"
+	video_sync_dirty();
+#endif
+
 #ifdef CONFIG_CMD_NET
 	/*
 	 * If net_busy_flag is 1, NET transfer is running,
@@ -440,6 +446,11 @@ static int usb_kbd_getc(struct stdio_dev *sdev)
 	struct stdio_dev *dev;
 	struct usb_device *usb_kbd_dev;
 	struct usb_kbd_pdata *data;
+
+#ifdef CONFIG_DM_VIDEO
+	// For "fast console"
+	video_sync_dirty();
+#endif
 
 	dev = stdio_get_by_name(sdev->name);
 	usb_kbd_dev = (struct usb_device *)dev->priv;

@@ -9,6 +9,7 @@
 #include <dm/lists.h>
 #include <errno.h>
 #include <log.h>
+#include <linux/delay.h>
 #include <power/rk8xx_pmic.h>
 #include <power/pmic.h>
 #include <sysreset.h>
@@ -129,6 +130,49 @@ static int rk8xx_read(struct udevice *dev, uint reg, uint8_t *buff, int len)
 	return 0;
 }
 
+static int rk8xx_shutdown(struct udevice *dev)
+{
+	struct rk8xx_priv *priv = dev_get_priv(dev);
+	u8 val, dev_off;
+	int ret = 0;
+
+	switch (priv->variant) {
+	case RK808_ID:
+		dev_off = BIT(3);
+		break;
+	case RK805_ID:
+	case RK816_ID:
+	case RK818_ID:
+		dev_off = BIT(0);
+		break;
+	default:
+		printf("Unknown PMIC: RK%x\n", priv->variant);
+		return -EINVAL;
+	}
+
+	ret = dm_i2c_read(dev, REG_DEVCTRL, &val, 1);
+	if (ret) {
+		printf("read error from device: %p register: %#x!",
+		       dev, REG_DEVCTRL);
+		return ret;
+	}
+
+	val |= dev_off;
+	ret = dm_i2c_write(dev, REG_DEVCTRL, &val, 1);
+	if (ret) {
+		printf("write error to device: %p register: %#x!",
+		       dev, REG_DEVCTRL);
+		return ret;
+	}
+
+	return 0;
+}
+
+int rk818_wait_battery(struct udevice *dev)
+{
+	return 0;
+}
+
 #if CONFIG_IS_ENABLED(PMIC_CHILDREN)
 static int rk8xx_bind(struct udevice *dev)
 {
@@ -144,7 +188,7 @@ static int rk8xx_bind(struct udevice *dev)
 
 	debug("%s: '%s' - found regulators subnode\n", __func__, dev->name);
 
-	if (CONFIG_IS_ENABLED(SYSRESET)) {
+	if (CONFIG_IS_ENABLED(SYSRESET) && (gd->flags & GD_FLG_RELOC)) {
 		ret = device_bind_driver_to_node(dev, "rk8xx_sysreset",
 						 "rk8xx_sysreset",
 						 dev_ofnode(dev), NULL);
@@ -253,6 +297,7 @@ static struct dm_pmic_ops rk8xx_ops = {
 	.reg_count = rk8xx_reg_count,
 	.read = rk8xx_read,
 	.write = rk8xx_write,
+	.shutdown = rk8xx_shutdown,
 };
 
 static const struct udevice_id rk8xx_ids[] = {
@@ -278,3 +323,31 @@ U_BOOT_DRIVER(rockchip_rk805) = {
 };
 
 DM_DRIVER_ALIAS(rockchip_rk805, rockchip_rk808)
+
+#if !IS_ENABLED(CONFIG_SYSRESET_CMD_POWEROFF)
+#ifdef CONFIG_CMD_POWEROFF
+// TODO: implement handling of: rockchip,system-power-controller
+int do_poweroff(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])
+{
+	struct udevice *pmic;
+	int ret;
+
+	ret = uclass_get_device_by_driver(UCLASS_PMIC, DM_DRIVER_GET(rockchip_rk805), &pmic);
+
+	if (ret != 0) {
+		printf("Failure in `do_poweroff` getting PMIC; ret=%d\n", ret);
+		return ret;
+	}
+
+	/* wait uart flush before shutdown */
+	mdelay(5);
+
+	/* PMIC shutdown */
+	pmic_shutdown(pmic);
+
+	panic("Cpu should never reach here, shutdown failed !");
+
+	return 0;
+}
+#endif
+#endif
