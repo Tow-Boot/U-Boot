@@ -14,4 +14,12 @@ fi
 
 RELEASE="$1"; shift
 
-_release_branches "tow-boot/$RELEASE" | grep -v '/_all$'
+_release_branches "tow-boot/$RELEASE"
+
+if (( $(_wrong_branch_names "tow-boot/$RELEASE" | wc -l) > 0 )); then
+	{
+	echo ""
+	echo "Warning: these branch names are invalid"
+	} >&2
+	_wrong_branch_names "tow-boot/$RELEASE"
+fi
