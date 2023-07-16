@@ -48,12 +48,15 @@ void splash_get_pos(int *x, int *y)
 	}
 }
 
-#if CONFIG_IS_ENABLED(VIDEO) && !CONFIG_IS_ENABLED(HIDE_LOGO_VERSION)
-
+#if CONFIG_IS_ENABLED(VIDEO)
 #ifdef CONFIG_VIDEO_LOGO
 #include <bmp_logo.h>
 #include <bmp_logo_data.h>
 #endif
+#endif
+
+#if CONFIG_IS_ENABLED(VIDEO) && !CONFIG_IS_ENABLED(HIDE_LOGO_VERSION)
+
 #include <dm.h>
 #include <video_console.h>
 #include <video_font.h>
