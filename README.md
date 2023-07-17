@@ -31,19 +31,32 @@ A final generic integration branch merging other branches is named
 #### Feature branch name prefixes
 
 Other branches under the prefix name are named (lowercased, dashes) according
-to the feature.
+to the change type and feature.
 
-Feature branch names that cannot be upstreamed for opinionated reasons are
-prefixed with `tb-`, meaning that they are additional customizations for
-Tow-Boot that are unlikely to be desirable by upstream.
+Feature branches coming from upstream contributions not yet merged are named
+`upstream-$feature`.
+
+Feature branches that can be upstreamed are named `base-$feature`. They
+should be self-contained and not rely on other branches. If it does, it is
+`wip-` until it's ready.
+
+Feature branch names that cannot be upstreamed as-they-are, because it's WIP,
+or because of the style of workarounds used, are prefixed `wip-`.
+The changes should generally be acceptable by upstream, once they are
+implemented correctly.
+
+Feature branches names that cannot be upstreamed for opinionated reasons are
+prefixed with `tb-$feature`. This means that they are additional
+customizations for Tow-Boot that are unlikely to be desirable by upstream.
+
+Family-specific feature branches are prefixed `soc-$family[-$feature]`. They
+may or may not be upstreamable as a whole.
 
 Board-specific feature branches are prefixed `board-$identifier[-$feature]`.
 The feature name may be missing if the changes are trivial and require only
-a single branch.
+a single branch. They may or may not be upstreamable as a whole.
 
-Feature branch names that cannot be upstreamed as-they-are, because of the
-style of workarounds used, are prefixed `wip-`. The changes should generally
-be acceptable by upstream, once they are implemented correctly.
+Branch prefixes not listed here are forbidden.
 
 > **NOTE**: `wip-` branches are allowed to refer to any other branches for
 > the release, when they build up on the features. The octopus merge strategy
@@ -51,8 +64,14 @@ be acceptable by upstream, once they are implemented correctly.
 > making a fuss. If it does not, it may mean the code is depending or
 > conflicting on changes from another set of branches.
 >
+> Similarly, set of changes for an SoC family may require being merged into
+> a base branch for the family.
+>
 > Care should be taken to prevent complex inter-dependencies when authoring
 > changes.
+
+The `_all` branch is merged with a script by sorting branches by type in the
+same order as this list, and then sorted by name.
 
 ### Commits
 
