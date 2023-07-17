@@ -23,7 +23,5 @@ if (( $(_wrong_branch_names "$PREFIX" | wc -l) > 0 )); then
 	} >&2
 fi
 
-set -x
-
 # shellcheck disable=2046
-git push --force -u "$REMOTE" "$PREFIX/_all" $(_release_branches "$PREFIX")
+_logged git push --force -u  "$REMOTE" $(_release_branches "$PREFIX")

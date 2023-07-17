@@ -20,6 +20,11 @@ _ALLOWED_EXTRA_PREFIXES_PATTERN=""
 
 # ============================================================================
 
+_logged() {
+	echo " $ $*"
+	"$@"
+}
+
 # All branches for a prefix.
 _get_branches() {
 	local RELEASE="$1"; shift
