@@ -38,7 +38,7 @@ _release_branches() {
 	local RELEASE="$1"; shift
 	# We are not using the pattern here as we want to order them
 	# in the same order they are merged in.
-	for branch_prefix in "${_ALLOWED_EXTRA_PREFIXES[@]}"; do
+	for branch_prefix in "${_RELEASE_PREFIXES[@]}"; do
 		_get_branches "$RELEASE" | grep "/$branch_prefix" || :
 	done
 }

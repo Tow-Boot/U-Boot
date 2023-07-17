@@ -44,7 +44,7 @@ $(
 EOF
 }
 
-git checkout -B "$PREFIX/_all" "$UBOOT_TAG"
+_logged git checkout -B "$PREFIX/_all" "$UBOOT_TAG"
 #shellcheck disable=SC2046
-git merge --no-ff $(_release_branches "$PREFIX") -m "[TBD]"
-git commit --amend -m "$(message)"
+_logged git merge --no-ff $(_release_branches "$PREFIX") -m "[TBD]"
+_logged git commit --amend -m "$(message)"
