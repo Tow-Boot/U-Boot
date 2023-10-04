@@ -13,11 +13,20 @@
 
 #ifndef CONFIG_SPL_BUILD
 
-/* First try to boot from SD (index 1), then eMMC (index 0) */
+/*
+ * eMMC: index 0
+ * SD:   index 1
+ */
 #if IS_ENABLED(CONFIG_CMD_MMC)
+#if defined(CONFIG_TOW_BOOT_PREDICTABLE_BOOT_PREFER_INTERNAL)
+	#define BOOT_TARGET_MMC(func) \
+		func(MMC, mmc, 0) \
+		func(MMC, mmc, 1)
+#elif defined(CONFIG_TOW_BOOT_PREDICTABLE_BOOT_PREFER_EXTERNAL)
 	#define BOOT_TARGET_MMC(func) \
 		func(MMC, mmc, 1) \
 		func(MMC, mmc, 0)
+#endif
 #else
 	#define BOOT_TARGET_MMC(func)
 #endif
