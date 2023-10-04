@@ -9,6 +9,7 @@
 #include <dm.h>
 #include <keyboard.h>
 #include <log.h>
+#include <video.h>
 
 static int keyboard_start(struct stdio_dev *sdev)
 {
@@ -38,6 +39,11 @@ static int keyboard_tstc(struct stdio_dev *sdev)
 	struct keyboard_priv *priv = dev_get_uclass_priv(dev);
 	struct keyboard_ops *ops = keyboard_get_ops(dev);
 
+#ifdef CONFIG_VIDEO
+	// For "fast console"
+	video_sync_dirty();
+#endif
+
 	/* Just get input to do this for us if we can */
 	if (priv->input.dev)
 		return input_tstc(&priv->input);
@@ -52,6 +58,11 @@ static int keyboard_getc(struct stdio_dev *sdev)
 	struct udevice *dev = sdev->priv;
 	struct keyboard_priv *priv = dev_get_uclass_priv(dev);
 	struct keyboard_ops *ops = keyboard_get_ops(dev);
+
+#ifdef CONFIG_VIDEO
+	// For "fast console"
+	video_sync_dirty();
+#endif
 
 	/* Just get input to do this for us if we can */
 	if (priv->input.dev)

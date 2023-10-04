@@ -1567,6 +1567,16 @@ config CMD_PVBLOCK
 	help
 	  Xen para-virtualized block device support
 
+config CMD_VIBRATOR
+	bool "vibrator"
+	depends on VIBRATOR
+	default y if VIBRATOR
+	help
+	  Enable the 'vibrator' command which allows for control of vibrator
+	  motors available on the board. The vibrator motors can be listed with
+	  'vibrator list' and controlled with vibrator on/off/time. Any
+	  vibrator driver can be controlled with this command.
+
 config CMD_VIRTIO
 	bool "virtio"
 	depends on VIRTIO
@@ -1988,6 +1998,7 @@ config CMD_2048
 config CMD_BMP
 	bool "Enable 'bmp' command"
 	depends on VIDEO
+	select BMP
 	help
 	  This provides a way to obtain information about a BMP-format image
 	  and to display it. BMP (which presumably stands for BitMaP) is a
@@ -2849,3 +2860,5 @@ config CMD_MESON
 	help
 	  Enable useful commands for the Meson Soc family developed by Amlogic Inc.
 endmenu
+
+source cmd/tow-boot/Kconfig

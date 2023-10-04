@@ -1,0 +1,16 @@
+choice
+	prompt "Tow-Boot predictable boot"
+	default TOW_BOOT_PREDICTABLE_BOOT_PREFER_INTERNAL
+	help
+		Selects which predictable boot order strategy is used.
+		 - Internal prefers eMMC, NVMe, SCSI, SD, then USB
+		 - External prefers the inverse order
+		Both order will keep network boot and SF booting at the end of the list.
+
+config TOW_BOOT_PREDICTABLE_BOOT_PREFER_INTERNAL
+	bool "Prefer the more internal storage first"
+
+config TOW_BOOT_PREDICTABLE_BOOT_PREFER_EXTERNAL
+	bool "Prefer the more external storage first"
+
+endchoice

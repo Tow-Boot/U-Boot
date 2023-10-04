@@ -116,7 +116,17 @@ struct __packed smbios_type2 {
 	char eos[SMBIOS_STRUCT_EOS_BYTES];
 };
 
-#define SMBIOS_ENCLOSURE_DESKTOP	3
+/* Definitions limited to those required by the implementation */
+#define SMBIOS_ENCLOSURE_OTHER               0x01 /* Other */
+#define SMBIOS_ENCLOSURE_UNKNOWN             0x02 /* Unknown */
+#define SMBIOS_ENCLOSURE_DESKTOP             0x03 /* Desktop */
+#define SMBIOS_ENCLOSURE_LAPTOP              0x09 /* Laptop */
+#define SMBIOS_ENCLOSURE_HAND_HELD           0x0B /* Hand Held */
+#define SMBIOS_ENCLOSURE_MAIN_SERVER_CHASSIS 0x11 /* Main Server Chassis */
+#define SMBIOS_ENCLOSURE_TABLET              0x1E /* Tablet */
+#define SMBIOS_ENCLOSURE_CONVERTIBLE         0x1F /* Convertible */
+#define SMBIOS_ENCLOSURE_EMBEDDED_PC         0x22 /* Embedded PC */
+
 #define SMBIOS_STATE_SAFE		3
 #define SMBIOS_SECURITY_NONE		3
 

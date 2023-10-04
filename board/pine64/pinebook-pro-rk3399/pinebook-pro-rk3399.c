@@ -6,10 +6,13 @@
 
 #include <common.h>
 #include <dm.h>
+#include <spl_gpio.h>
 #include <syscon.h>
+#include <linux/delay.h>
 #include <asm/io.h>
 #include <asm/arch-rockchip/clock.h>
 #include <asm/arch-rockchip/grf_rk3399.h>
+#include <asm/arch-rockchip/gpio.h>
 #include <asm/arch-rockchip/hardware.h>
 #include <asm/arch-rockchip/misc.h>
 #include <power/regulator.h>
@@ -36,6 +39,35 @@ int board_early_init_f(void)
 out:
 	return 0;
 }
+#else
+
+#define GPIO0_BASE	0xff720000
+
+void led_setup(void)
+{
+	struct rockchip_gpio_regs * const gpio0 = (void *)GPIO0_BASE;
+
+	// Light up the red LED
+	// <&gpio0 RK_PA2 GPIO_ACTIVE_HIGH>;
+	spl_gpio_output(gpio0, GPIO(BANK_A, 2), 1);
+	// Turn off green LED (from kept reboot state)
+	// <&gpio0 RK_PB3 GPIO_ACTIVE_HIGH>;
+	spl_gpio_output(gpio0, GPIO(BANK_B, 3), 0);
+}
+
+#define GPIO1_BASE	0xff730000
+
+void setup_gpio_pins(void)
+{
+	struct rockchip_gpio_regs * const gpio1 = (void *)GPIO1_BASE;
+
+	// Turns the display power supply off
+	// It is `always-on` in DT, but a `reboot` will not turn it off.
+	// When turned on at boot, the current implementation doesn't play well.
+	// <&gpio1 RK_PC6 GPIO_ACTIVE_HIGH>;
+	spl_gpio_output(gpio1, GPIO(BANK_C, 6), 0);
+}
+
 #endif
 
 #ifdef CONFIG_MISC_INIT_R

@@ -48,6 +48,9 @@ int run_command(const char *cmd, int flag)
 
 	if (flag & CMD_FLAG_ENV)
 		hush_flags |= FLAG_CONT_ON_NEWLINE;
+
+	clear_ctrlc();		/* forget any previous Control C */
+
 	return parse_string_outer(cmd, hush_flags);
 #endif
 }
@@ -68,6 +71,9 @@ int run_command_repeatable(const char *cmd, int flag)
 	 * parse_string_outer() returns 1 for failure, so clean up
 	 * its result.
 	 */
+
+	clear_ctrlc();		/* forget any previous Control C */
+
 	if (parse_string_outer(cmd,
 			       FLAG_PARSE_SEMICOLON | FLAG_EXIT_FROM_LOOP))
 		return -1;
@@ -108,6 +114,9 @@ int run_command_list(const char *cmd, int len, int flag)
 		buff[len] = '\0';
 	}
 #ifdef CONFIG_HUSH_PARSER
+
+	clear_ctrlc();		/* forget any previous Control C */
+
 	rcode = parse_string_outer(buff, FLAG_PARSE_SEMICOLON);
 #else
 	/*
