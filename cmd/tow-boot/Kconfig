@@ -1,0 +1,43 @@
+menu "Tow-Boot additional commands"
+
+config TOW_BOOT_MENU
+	bool "Enable Tow-Boot menu commands"
+	default n
+	select PDCURSES
+	select CMD_CLS
+	help
+	  Add support for curses menu interface.
+
+config TOW_BOOT_MENU_CTRL_C_EXITS
+	bool "CTRL+C exits the menu"
+	default n
+	depends on TOW_BOOT_MENU
+
+endmenu
+
+menu "Tow-Boot menu storage name configuration"
+
+config TOW_BOOT_MMC0_NAME
+	string "MMC0 user-friendly name"
+	default "SD" if ARCH_SUNXI
+	default "SD" if MESON_G12A || MESON_GXL
+	default "eMMC"
+	help
+	  Name used in the interface for MMC0
+
+config TOW_BOOT_MMC1_NAME
+	string "MMC1 user-friendly name"
+	default "eMMC" if ARCH_SUNXI
+	default "eMMC" if MESON_G12A || MESON_GXL
+	default "SD"
+	help
+	  Name used in the interface for MMC1
+
+config TOW_BOOT_MMC2_NAME
+	string "MMC2 user-friendly name"
+	default "(sdio)" if MESON_G12A || MESON_GXL
+	default "(Unused)"
+	help
+	  Name used in the interface for MMC2
+
+endmenu

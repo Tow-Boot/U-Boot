@@ -160,6 +160,18 @@ int spl_gpio_set_pull(void *vregs, uint gpio, int pull)
 	return 0;
 }
 
+int spl_gpio_input(void *vregs, uint gpio)
+{
+	struct rockchip_gpio_regs * const regs = vregs;
+
+	clrsetbits_le32(&regs->swport_dr, 1 << gpio, 0);
+
+	/* Set direction */
+	clrsetbits_le32(&regs->swport_ddr, 1 << gpio, 0);
+
+	return 0;
+}
+
 int spl_gpio_output(void *vregs, uint gpio, int value)
 {
 	struct rockchip_gpio_regs * const regs = vregs;

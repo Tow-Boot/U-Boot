@@ -268,6 +268,12 @@
 	linux,rc-map-name = "rc-odroid";
 };
 
+/* eMMC */
+&sd_emmc_c {
+	pinctrl-0 = <&emmc_ctrl_pins>, <&emmc_data_4b_pins>, <&emmc_ds_pins>;
+	bus-width = <4>;
+};
+
 /*
  * EMMC_D4, EMMC_D5, EMMC_D6 and EMMC_D7 pins are shared between SPI NOR pins
  * and eMMC Data 4 to 7 pins.
@@ -276,7 +282,7 @@
  * The SW1 slide should also be set to the correct position.
  */
 &spifc {
-	status = "disabled";
+	status = "okay";
 	pinctrl-0 = <&nor_pins>;
 	pinctrl-names = "default";
 

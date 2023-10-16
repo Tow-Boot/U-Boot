@@ -166,6 +166,7 @@ struct dm_pmic_ops {
 	int (*read)(struct udevice *dev, uint reg, uint8_t *buffer, int len);
 	int (*write)(struct udevice *dev, uint reg, const uint8_t *buffer,
 		     int len);
+	int (*shutdown)(struct udevice *dev);
 };
 
 /**
@@ -307,6 +308,14 @@ int pmic_clrsetbits(struct udevice *dev, uint reg, uint clr, uint set);
 struct uc_pmic_priv {
 	uint trans_len;
 };
+
+/**
+ * pmic_shutdown() - power off supplies of PMIC
+ *
+ * @dev:	PMIC device to update
+ * @return 0 on success or negative value of errno.
+ */
+int pmic_shutdown(struct udevice *dev);
 
 #endif /* DM_PMIC */
 

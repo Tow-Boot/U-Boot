@@ -14,6 +14,7 @@
 #include <sysinfo.h>
 #include <tables_csum.h>
 #include <version.h>
+#include <version_string.h>
 #ifdef CONFIG_CPU
 #include <cpu.h>
 #include <dm/uclass-internal.h>
@@ -86,6 +87,31 @@ struct smbios_write_method {
 	smbios_write_type write;
 	const char *subnode_name;
 };
+
+/**
+ * smbios_enclosure_from_string() - returns smbios byte value for chassis type string.
+ *
+ * The chassis type string values are the recommended root node properties as
+ * defined in the device tree specification 3.2 Root node.
+ *
+ * The byte values are the closest equivalent values as defined in the SMBIOS
+ * specification, 7.4.1 System Enclosure or Chassis Types.
+ */
+static int smbios_enclosure_from_string(char* str)
+{
+	if (!strncmp(str, "desktop", 7)) return SMBIOS_ENCLOSURE_DESKTOP;
+	if (!strncmp(str, "laptop", 6)) return SMBIOS_ENCLOSURE_LAPTOP;
+	if (!strncmp(str, "convertible", 11)) return SMBIOS_ENCLOSURE_CONVERTIBLE;
+	if (!strncmp(str, "server", 6)) return SMBIOS_ENCLOSURE_MAIN_SERVER_CHASSIS;
+	if (!strncmp(str, "tablet", 6)) return SMBIOS_ENCLOSURE_TABLET;
+	/* Hand Held is the closest there is */
+	if (!strncmp(str, "handset", 7)) return SMBIOS_ENCLOSURE_HAND_HELD;
+	/* SMBIOS does not define watch */
+	if (!strncmp(str, "watch", 5)) return SMBIOS_ENCLOSURE_OTHER;
+	if (!strncmp(str, "embedded", 8)) return SMBIOS_ENCLOSURE_EMBEDDED_PC;
+	
+	return SMBIOS_ENCLOSURE_UNKNOWN;
+}
 
 /**
  * smbios_add_string() - add a string to the string area
@@ -228,11 +254,10 @@ static int smbios_write_type0(ulong *current, int handle,
 	memset(t, 0, sizeof(struct smbios_type0));
 	fill_smbios_header(t, SMBIOS_BIOS_INFORMATION, len, handle);
 	smbios_set_eos(ctx, t->eos);
-	t->vendor = smbios_add_string(ctx, "U-Boot");
+	t->vendor = smbios_add_string(ctx, "Tow-Boot");
 
-	t->bios_ver = smbios_add_prop(ctx, "version");
-	if (!t->bios_ver)
-		t->bios_ver = smbios_add_string(ctx, PLAIN_VERSION);
+	/* Hardcode full version string */
+	t->bios_ver = smbios_add_string(ctx, version_string);
 	if (t->bios_ver)
 		gd->smbios_version = ctx->last_str;
 	log_debug("smbios_version = %p: '%s'\n", gd->smbios_version,
@@ -346,7 +371,18 @@ static int smbios_write_type3(ulong *current, int handle,
 	t->manufacturer = smbios_add_prop(ctx, "manufacturer");
 	if (!t->manufacturer)
 		t->manufacturer = smbios_add_string(ctx, "Unknown");
-	t->chassis_type = SMBIOS_ENCLOSURE_DESKTOP;
+	t->chassis_type = SMBIOS_ENCLOSURE_UNKNOWN;
+	if (IS_ENABLED(CONFIG_OF_CONTROL)) {
+		ofnode node;
+		node = ofnode_path("/");
+		const char *chassis_type;
+
+		if (ofnode_valid(node)) {
+			chassis_type = ofnode_read_string(node, "chassis-type");
+			if (chassis_type)
+				t->chassis_type = smbios_enclosure_from_string(chassis_type);
+		}
+	}
 	t->bootup_state = SMBIOS_STATE_SAFE;
 	t->power_supply_state = SMBIOS_STATE_SAFE;
 	t->thermal_state = SMBIOS_STATE_SAFE;

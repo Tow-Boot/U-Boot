@@ -1,5 +1,10 @@
 if ARCH_SUNXI
 
+config PINEPHONE_LEDS
+	bool "Notify boot status via LEDs on PinePhone"
+	---help---
+	LED boot notification.
+
 config IDENT_STRING
 	default " Allwinner Technology"
 
