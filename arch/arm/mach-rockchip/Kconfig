@@ -535,4 +535,17 @@ source "arch/arm/mach-rockchip/rk3568/Kconfig"
 source "arch/arm/mach-rockchip/rk3588/Kconfig"
 source "arch/arm/mach-rockchip/rv1108/Kconfig"
 source "arch/arm/mach-rockchip/rv1126/Kconfig"
+
+config TOW_BOOT_QUIRK_ROCKCHIP_DISABLE_DOWNLOAD_MODE
+	bool "(Tow-Boot) Disable rockchip download mode on ADC key input"
+	default false
+	help
+		Some Rockchip hardware, namely tablets and phones, will go in the
+		rockchip download mode when one of the ADC keys, often a volume keys,
+		is pressed. This is undesirable for our semantics.
+		When true, this disables the download mode handling in SPL.
+		In turn, this frees the volume key handling to be handled by the
+		platform firmware from early boot, allowing the end-user to hold
+		the button to do operations like get in a recovery mode.
+
 endif

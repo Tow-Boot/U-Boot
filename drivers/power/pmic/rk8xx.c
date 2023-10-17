@@ -129,6 +129,11 @@ static int rk8xx_read(struct udevice *dev, uint reg, uint8_t *buff, int len)
 	return 0;
 }
 
+int rk818_wait_battery(struct udevice *dev)
+{
+	return 0;
+}
+
 #if CONFIG_IS_ENABLED(PMIC_CHILDREN)
 static int rk8xx_bind(struct udevice *dev)
 {
@@ -144,7 +149,7 @@ static int rk8xx_bind(struct udevice *dev)
 
 	debug("%s: '%s' - found regulators subnode\n", __func__, dev->name);
 
-	if (CONFIG_IS_ENABLED(SYSRESET)) {
+	if (CONFIG_IS_ENABLED(SYSRESET) && (gd->flags & GD_FLG_RELOC)) {
 		ret = device_bind_driver_to_node(dev, "rk8xx_sysreset",
 						 "rk8xx_sysreset",
 						 dev_ofnode(dev), NULL);

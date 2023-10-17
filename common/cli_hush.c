@@ -3215,6 +3215,9 @@ static int parse_stream_outer(struct in_str *inp, int flag)
 				/* XXX hackish way to not allow exit from main loop */
 				if (inp->peek == file_peek) {
 					printf("exit not allowed from main input shell.\n");
+#ifdef CONFIG_TOW_BOOT_MENU
+					printf("\nUse `run menucmd` to get back to the menu.\n");
+#endif
 					continue;
 				}
 				/*

@@ -1,0 +1,22 @@
+config PDCURSES
+	bool "Enable curses implementation"
+	imply CFB_CONSOLE_ANSI
+	imply VIDEO_ANSI
+	default n
+	help
+	  Select this option to enable building a curses implementation
+
+config PDCURSES_DEMOS
+	bool "Build PDCurses demos"
+	depends on PDCURSES
+	default n
+	help
+	  Select this option to build demos from PDCurses
+
+config PDCURSES_PREFER_VIDCONSOLE
+	bool "Prefer vidconsole size"
+	depends on PDCURSES
+	default n
+	help
+	  When enabled, the vidconsole sizes will be used.
+	  Otherwise, the smallest intersection between serial and vidconsole will be used.

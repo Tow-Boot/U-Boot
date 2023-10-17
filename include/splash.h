@@ -64,5 +64,6 @@ void splash_get_pos(int *x, int *y);
 int splash_display(void);
 
 #define BMP_ALIGN_CENTER	0x7FFF
+#define BMP_ALIGN_END		0x7FFE
 
 #endif

@@ -9,6 +9,8 @@
 #ifndef _CONFIG_CMD_DISTRO_BOOTCMD_H
 #define _CONFIG_CMD_DISTRO_BOOTCMD_H
 
+#include <tow-boot_env.h>
+
 /*
  * A note on error handling: It is possible for BOOT_TARGET_DEVICES to
  * reference a device that is not enabled in the U-Boot configuration, e.g.
@@ -538,6 +540,8 @@
 		BOOTENV_SET_EXTENSION_NEED_INIT                           \
 		"for target in ${boot_targets}; do "                      \
 			"run bootcmd_${target}; "                         \
-		"done\0"
+		"done\0" \
+	\
+	TOW_BOOT_ENV
 
 #endif  /* _CONFIG_CMD_DISTRO_BOOTCMD_H */

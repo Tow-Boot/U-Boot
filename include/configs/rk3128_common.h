@@ -22,10 +22,11 @@
 	"kernel_addr_r=0x62000000\0" \
 	"ramdisk_addr_r=0x64000000\0"
 
+#include <config_distro_bootcmd.h>
 #define CFG_EXTRA_ENV_SETTINGS \
 	ENV_MEM_LAYOUT_SETTINGS \
 	"fdt_file=" CONFIG_DEFAULT_FDT_FILE "\0" \
 	"partitions=" PARTS_DEFAULT \
-	"boot_targets=" BOOT_TARGETS "\0"
+	BOOTENV
 
 #endif

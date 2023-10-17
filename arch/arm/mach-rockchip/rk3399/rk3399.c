@@ -254,9 +254,14 @@ void __weak led_setup(void)
 {
 }
 
+void __weak setup_gpio_pins(void)
+{
+}
+
 void spl_board_init(void)
 {
 	led_setup();
+	setup_gpio_pins();
 
 	if (IS_ENABLED(CONFIG_SPL_GPIO)) {
 		struct rockchip_cru *cru = rockchip_get_cru();
