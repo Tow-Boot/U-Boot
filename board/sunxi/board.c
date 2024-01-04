@@ -18,6 +18,7 @@
 #include <image.h>
 #include <init.h>
 #include <log.h>
+#include <i2c.h>
 #include <mmc.h>
 #include <axp_pmic.h>
 #include <generic-phy.h>
@@ -51,6 +52,15 @@
 #include <status_led.h>
 
 DECLARE_GLOBAL_DATA_PTR;
+
+#define PINEPHONE_LIS3MDL_I2C_ADDR	0x1E
+
+/* I2C1 */
+#if defined(CONFIG_I2C0_ENABLE)
+#define PINEPHONE_LIS3MDL_I2C_BUS	1
+#else
+#define PINEPHONE_LIS3MDL_I2C_BUS	0
+#endif
 
 void i2c_init_board(void)
 {
@@ -968,6 +978,9 @@ int board_fit_config_name_match(const char *name)
 {
 	const char *best_dt_name = get_spl_dt_name();
 	int ret;
+#if CONFIG_IS_ENABLED(DM_I2C)
+	struct udevice *bus, *dev;
+#endif
 
 #ifdef CONFIG_DEFAULT_DEVICE_TREE
 	if (best_dt_name == NULL)
@@ -994,11 +1007,21 @@ int board_fit_config_name_match(const char *name)
 		udelay(100);
 
 		/* PL6 is pulled low by the modem on v1.2. */
-		if (gpio_get_value(SUNXI_GPL(6)) == 0)
-			best_dt_name = "sun50i-a64-pinephone-1.2";
-		else
-			best_dt_name = "sun50i-a64-pinephone-1.1";
+		if (gpio_get_value(SUNXI_GPL(6)) == 0) {
+			best_dt_name = "sun50i-a64-pinephone-1.2b";
 
+			/* 1.2 has different I2C magnetometer */
+#if CONFIG_IS_ENABLED(DM_I2C)
+			if (!uclass_get_device_by_seq(UCLASS_I2C, PINEPHONE_LIS3MDL_I2C_BUS, &bus))
+				if (!dm_i2c_probe(bus, PINEPHONE_LIS3MDL_I2C_ADDR, 0, &dev))
+					best_dt_name = "sun50i-a64-pinephone-1.2";
+#else
+			if (!i2c_set_bus_num(PINEPHONE_LIS3MDL_I2C_BUS))
+				if (!i2c_probe(PINEPHONE_LIS3MDL_I2C_ADDR))
+					best_dt_name = "sun50i-a64-pinephone-1.2";
+#endif
+		} else
+			best_dt_name = "sun50i-a64-pinephone-1.1";
 		sunxi_gpio_set_cfgpin(SUNXI_GPL(6), SUNXI_GPIO_DISABLE);
 		sunxi_gpio_set_pull(SUNXI_GPL(6), SUNXI_GPIO_PULL_DISABLE);
 		prcm_apb0_disable(PRCM_APB0_GATE_PIO);
